@@ -10,9 +10,9 @@ export class Field1Entity {
     User: UserEntity;
 
     @Column()
-    startTime: string;
+    StartTime: string;
     @Column()
-    endTime: string;
+    EndTime: string;
     @Column()
-    date: Date;
+    DateDay: Date;
 }

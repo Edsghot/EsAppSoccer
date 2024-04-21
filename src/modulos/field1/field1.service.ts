@@ -7,23 +7,25 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class Field1Service {
-    constructor(
-        @InjectRepository(Field1Entity)
-        private readonly fieldRepository: Repository<Field1Entity>,
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>,
-      ) {}
+  constructor(
+    @InjectRepository(Field1Entity)
+    private readonly fieldRepository: Repository<Field1Entity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
   async CreateField1(request: CreateField2Dto) {
     try {
       let newF = new Field1Entity();
-        const user = await this.userRepository.findOne({where:{IdUser: request.IdUser}})
-        if(!user){
-            return {msg:"no se encontro el usuario",success: false}
-        }
-        newF.User = user;
-      newF.startTime = request.StartTime;
-      newF.endTime = request.EndTime;
-      newF.date = new Date();
+      const user = await this.userRepository.findOne({
+        where: { IdUser: request.IdUser },
+      });
+      if (!user) {
+        return { msg: 'no se encontro el usuario', success: false };
+      }
+      newF.User = user;
+      newF.StartTime = request.StartTime;
+      newF.EndTime = request.EndTime;
+      newF.DateDay = request.DateDay;
 
       const field = await this.fieldRepository.create(newF);
 
@@ -44,10 +46,12 @@ export class Field1Service {
       return { msg: 'Failed to get fields', detailMsg: error, success: false };
     }
   }
-  
+
   async getFieldById(id: number) {
     try {
-      const field = await this.fieldRepository.findOne({where:{IdField1Entity:id}});
+      const field = await this.fieldRepository.findOne({
+        where: { IdField1Entity: id },
+      });
       if (!field) {
         return { msg: 'Field not found', success: false };
       }
@@ -57,10 +61,12 @@ export class Field1Service {
       return { msg: 'Failed to get field', detailMsg: error, success: false };
     }
   }
-  
+
   async deleteField(id: number) {
     try {
-      const fieldToDelete = await this.fieldRepository.findOne({where:{IdField1Entity:id}});
+      const fieldToDelete = await this.fieldRepository.findOne({
+        where: { IdField1Entity: id },
+      });
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
@@ -68,7 +74,11 @@ export class Field1Service {
       return { msg: 'Field deleted successfully', success: true };
     } catch (error) {
       console.error('Failed to delete field:', error);
-      return { msg: 'Failed to delete field', detailMsg: error, success: false };
+      return {
+        msg: 'Failed to delete field',
+        detailMsg: error,
+        success: false,
+      };
     }
-}
+  }
 }

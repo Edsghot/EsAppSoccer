@@ -22,9 +22,9 @@ export class Field2Service {
           return {msg:"no se encontro el usuario",success: false}
       }
       newF.User = user;
-      newF.startTime = request.StartTime;
-      newF.endTime = request.EndTime;
-      newF.date = new Date();
+      newF.StartTime = request.StartTime;
+      newF.EndTime = request.EndTime;
+      newF.DateDay = request.DateDay;
 
       const field = await this.fieldRepository.create(newF);
 

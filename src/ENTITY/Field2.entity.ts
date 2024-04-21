@@ -8,9 +8,9 @@ export class Field2Entity{
     @ManyToOne(() => UserEntity, user => user.Field2)
     User: UserEntity;
     @Column()
-    startTime: string;
+    StartTime: string;
     @Column()
-    endTime: string;
+    EndTime: string;
     @Column()
-    date: Date;
+    DateDay: Date;
 }
