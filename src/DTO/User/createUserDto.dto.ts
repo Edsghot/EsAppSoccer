@@ -36,4 +36,6 @@ export class CreateUserDto {
 
     @IsNumber()
     Rol: number;
+
+    Laboratory:string;
 }

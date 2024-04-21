@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modulos/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Field1Module } from './modulos/field1/field1.module';
+import { Field2Module } from './modulos/field2/field2.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -12,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     database: 'nibcqvah_EsAppSoccer',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
-}),UserModule],
+}),UserModule, Field1Module, Field2Module],
   controllers: [],
   providers: [ ],
 })

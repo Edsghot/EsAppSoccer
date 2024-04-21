@@ -27,6 +27,7 @@ export class UserService {
             Shift: createUserDto.Shift,
             Mail: createUserDto.Mail,
             Rol: createUserDto.Rol,
+            Laboratory: createUserDto.Laboratory
           });
     
           // Guardar la nueva entidad de usuario en la base de datos
@@ -40,15 +41,11 @@ export class UserService {
       }
     async updateUser(updateUserDto: UpdateUserDto) {
         try {
-            // Obtener el usuario existente de la base de datos
             const user = await this.userRepository.findOne({where:{IdUser: updateUserDto.IdUser}});
-    
-            // Verificar si se encontró el usuario
             if (!user) {
                 return { msg: 'User not found', success: false };
             }
     
-            // Mapear los datos del DTO a la instancia existente del usuario
             user.FirstName = updateUserDto.FirstName;
             user.LastName = updateUserDto.LastName;
             user.Password = updateUserDto.Password;
@@ -60,14 +57,11 @@ export class UserService {
             user.Mail = updateUserDto.Mail;
             user.Rol = updateUserDto.Rol;
     
-            // Guardar los cambios en la base de datos
             await this.userRepository.save(user);
     
-            // Devolver un mensaje de éxito
             return { msg: 'User updated successfully', success: true };
         } catch (error) {
-            // Capturar cualquier error y devolver un mensaje de error
-            console.error('Failed to update user:', error);
+
             return { msg: 'Failed to update user', detailMsg: error, success: false };
         }
     }
@@ -106,19 +100,21 @@ export class UserService {
 
     async login(userRequest: string, password: string) {
         try {
-            const user = await this.userRepository.findOne({ where: { Dni: userRequest } });
+
+            let userRes;
+            userRes = await this.userRepository.findOne({ where: { Dni: userRequest,Password:password } });
             
-            if (!user || user.Password !== password) {
-                const userRes = await this.userRepository.findOne({ where: { EmployeeCode: userRequest } });
+            if (!userRes ) {
+                userRes = await this.userRepository.findOne({ where: { EmployeeCode: userRequest,Password:password } });
                 
-                if (!userRes || userRes.Password !== password) {
+                if (!userRes ) {
                     return { data: null, msg: 'Invalid username or password', success: false };
                 }
             }
             
-            return { data: user, msg: 'Success', success: true };
+            return { data: userRes, msg: 'Success', success: true };
+
         } catch (error) {
-            console.error('Login failed:', error);
             return { msg: 'Login failed', detailMsg: error, success: false };
         }
     }

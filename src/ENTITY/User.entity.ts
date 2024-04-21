@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Field1Entity } from './Field1.entity';
+import { Field2Entity } from './Field2.entity';
 
 enum Shift {
     MORNING = 'Morning',
@@ -10,6 +12,12 @@ export class UserEntity {
     @PrimaryGeneratedColumn()
     IdUser: number;
 
+    @OneToMany(() => Field1Entity, field1 => field1.User)
+    Field1: Field1Entity[];
+
+    @OneToMany(() => Field2Entity, field2 => field2.User)
+    Field2: Field2Entity[];
+    
     @Column()
     FirstName: string;
 
@@ -43,4 +51,7 @@ export class UserEntity {
 
     @Column()
     Rol: number;
+
+    @Column()
+    Laboratory: string;
 }
