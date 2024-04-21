@@ -9,7 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     port: 3306,
     username: 'nibcqvah_edsghot',
     password: 'Repro123.',
-    database: 'nibcqvah_zonaFit',
+    database: 'nibcqvah_EsAppSoccer',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
 }),UserModule],
