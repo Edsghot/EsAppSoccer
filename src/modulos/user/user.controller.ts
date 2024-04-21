@@ -33,6 +33,8 @@ export class UserController {
     async deleteUser(@Param('id') id: number) {
         return await this.userService.deleteUser(id);
     }
+
+    @Post('login')
     async login(@Body() loginDto: LoginDto) {
         // Valida la instancia del DTO
         const errors = await validate(loginDto);
