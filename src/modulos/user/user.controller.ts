@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { CreateUserDto } from 'src/DTO/User/createUserDto.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
 import { UserService } from './user.service';
+import { LoginDto } from 'src/DTO/User/LoginDto.dto';
+import { validate } from 'class-validator';
 
 @Controller('api/user')
 export class UserController {
@@ -31,10 +33,18 @@ export class UserController {
     async deleteUser(@Param('id') id: number) {
         return await this.userService.deleteUser(id);
     }
-
-    @Post('login')
-    async login(@Body('UserRequest') UserRequest: string, @Body('Password') Password: string) {
-        return await this.userService.login(UserRequest, Password);
+    async login(@Body() loginDto: LoginDto) {
+        // Valida la instancia del DTO
+        const errors = await validate(loginDto);
+    
+        // Si hay errores de validación, lanza un error con los detalles
+        if (errors.length > 0) {
+            const errorMessage = errors.map(error => Object.values(error.constraints)).join(', ');
+        
+            return {msg: "Error de datos de ingreso", detailMsg:errorMessage }
+        }
+    
+        // Si la validación es exitosa, procede con la lógica de inicio de sesión
+        return await this.userService.login(loginDto.UserRequest, loginDto.Password);
     }
-      
 }
