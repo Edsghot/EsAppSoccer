@@ -85,10 +85,10 @@ export class Field1Service {
 
   async GetAllTotal() {
     try {
-      const data = await this.fieldRepository.query('CALL GetAllField1()');
+      const data = await this.fieldRepository.query('CALL GetAllField1();');
       return {
         msg: 'Lista de reservas completa',
-        data: data[0],
+        data: data,
         success: true,
       };
     } catch (error) {
@@ -108,7 +108,7 @@ export class Field1Service {
       );
       return {
         msg: 'Lista de reservas completa',
-        data: data[0],
+        data: data,
         success: true,
       };
     } catch (error) {
