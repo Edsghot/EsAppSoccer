@@ -89,7 +89,7 @@ export class Field2Service {
       const data = await this.fieldRepository.query('CALL GetAllField2()');
       return {
         msg: 'Lista de reservas completa',
-        data: data,
+        data: data[0],
         success: true,
       };
     } catch (error) {
@@ -109,7 +109,7 @@ export class Field2Service {
       );
       return {
         msg: 'Lista de reservas completa',
-        data: data,
+        data: data[0],
         success: true,
       };
     } catch (error) {
