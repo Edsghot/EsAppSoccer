@@ -17,11 +17,6 @@ export class Field2Controller {
       return await this.fieldsService.getAllFields();
     }
   
-    @Get(':id')
-    async getFieldById(@Param('id') id: number) {
-      return await this.fieldsService.getFieldById(id);
-    }
-  
     @Delete(':id')
     async deleteField(@Param('id') id: number) {
       return await this.fieldsService.deleteField(id);
