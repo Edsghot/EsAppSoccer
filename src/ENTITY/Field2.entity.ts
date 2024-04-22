@@ -12,5 +12,5 @@ export class Field2Entity{
     @Column()
     EndTime: string;
     @Column()
-    DateDay: Date;
+    DateDay: string;
 }

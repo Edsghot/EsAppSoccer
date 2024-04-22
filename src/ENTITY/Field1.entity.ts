@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserEntity } from "./User.entity";
+import { StringifyOptions } from "querystring";
 
 @Entity("Field1")
 export class Field1Entity {
@@ -14,5 +15,5 @@ export class Field1Entity {
     @Column()
     EndTime: string;
     @Column()
-    DateDay: Date;
+    DateDay: string;
 }

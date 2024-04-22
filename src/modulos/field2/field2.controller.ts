@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field2Service } from './field2.service';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
@@ -28,7 +28,7 @@ export class Field2Controller {
     }
 
     @Get("/GetAllWeekly")
-    async GetAllWeekly(@Body() request: WeeklyDto) {
+    async GetAllWeekly(@Query() request: WeeklyDto) {
       return await this.fieldsService.getAllWeekly(request);
     }
 }
