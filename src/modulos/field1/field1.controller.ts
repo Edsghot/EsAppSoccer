@@ -27,12 +27,12 @@ export class Field1Controller {
       return await this.fieldsService.deleteField(id);
     }
 
-    @Get("GetAllTotal")
+    @Get("/GetAllTotal")
     async GetAllTotal() {
       return await this.fieldsService.GetAllTotal();
     }
 
-    @Get("GetAllWeekly")
+    @Get("/GetAllWeekly")
     async GetAllWeekly(@Body() request: WeeklyDto) {
       return await this.fieldsService.getAllWeekly(request);
     }
