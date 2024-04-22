@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field2Service } from './field2.service';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 
 @Controller('api/field2')
 export class Field2Controller {
@@ -24,5 +25,15 @@ export class Field2Controller {
     @Delete(':id')
     async deleteField(@Param('id') id: number) {
       return await this.fieldsService.deleteField(id);
+    }
+
+    @Get("GetAllTotal")
+    async GetAllTotal() {
+      return await this.fieldsService.GetAllTotal();
+    }
+
+    @Get("GetAllWeekly")
+    async GetAllWeekly(@Body() request: WeeklyDto) {
+      return await this.fieldsService.getAllWeekly(request);
     }
 }

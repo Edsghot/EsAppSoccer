@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
@@ -17,9 +18,11 @@ export class Field2Service {
   async CreateField2(request: CreateField2Dto) {
     try {
       let newF = new Field2Entity();
-      const user = await this.userRepository.findOne({where:{IdUser: request.IdUser}})
-      if(!user){
-          return {msg:"no se encontro el usuario",success: false}
+      const user = await this.userRepository.findOne({
+        where: { IdUser: request.IdUser },
+      });
+      if (!user) {
+        return { msg: 'no se encontro el usuario', success: false };
       }
       newF.User = user;
       newF.StartTime = request.StartTime;
@@ -45,10 +48,12 @@ export class Field2Service {
       return { msg: 'Failed to get fields', detailMsg: error, success: false };
     }
   }
-  
+
   async getFieldById(id: number) {
     try {
-      const field = await this.fieldRepository.findOne({where:{IdField2Entity:id}});
+      const field = await this.fieldRepository.findOne({
+        where: { IdField2Entity: id },
+      });
       if (!field) {
         return { msg: 'Field not found', success: false };
       }
@@ -58,10 +63,12 @@ export class Field2Service {
       return { msg: 'Failed to get field', detailMsg: error, success: false };
     }
   }
-  
+
   async deleteField(id: number) {
     try {
-      const fieldToDelete = await this.fieldRepository.findOne({where:{IdField2Entity:id}});
+      const fieldToDelete = await this.fieldRepository.findOne({
+        where: { IdField2Entity: id },
+      });
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
@@ -69,9 +76,49 @@ export class Field2Service {
       return { msg: 'Field deleted successfully', success: true };
     } catch (error) {
       console.error('Failed to delete field:', error);
-      return { msg: 'Failed to delete field', detailMsg: error, success: false };
+      return {
+        msg: 'Failed to delete field',
+        detailMsg: error,
+        success: false,
+      };
     }
   }
-  
 
+  async GetAllTotal() {
+    try {
+      const data = await this.fieldRepository.query('CALL GetAllField2()');
+      return {
+        msg: 'Lista de reservas completa',
+        data: data[0],
+        success: true,
+      };
+    } catch (error) {
+      console.error('Failed to fetch all fields:', error);
+      return {
+        msg: 'Failed to fetch all fields',
+        detailMsg: error,
+        success: false,
+      };
+    }
+  }
+
+  async getAllWeekly(request: WeeklyDto) {
+    try {
+      const data = await this.fieldRepository.query(
+        `CALL getAllWeekly2('${request.StartDate}', '${request.EndDate}')`,
+      );
+      return {
+        msg: 'Lista de reservas completa',
+        data: data[0],
+        success: true,
+      };
+    } catch (error) {
+      console.error('Failed to fetch all fields:', error);
+      return {
+        msg: 'Failed to fetch all fields',
+        detailMsg: error,
+        success: false,
+      };
+    }
+  }
 }
