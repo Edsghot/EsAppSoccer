@@ -26,7 +26,7 @@ export class UserService {
         if(!band.success){
             return {msg: band.msg,success: band.success, data:null}
         }
-        band = await this.validateService.validatePhoneNumber(request.Dni);
+        band = await this.validateService.validatePhoneNumber(request.PhoneNumber);
         
         if(!band.success){
             return {msg: band.msg,success: band.success, data:null}
