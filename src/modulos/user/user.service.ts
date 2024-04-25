@@ -22,12 +22,31 @@ export class UserService {
     try {
         let band: { success: boolean, msg: string };
         band = await this.validateService.validateDni(request.Dni);
+        
+        if(!band.success){
+            return {msg: band.msg,success: band.success, data:null}
+        }
         band = await this.validateService.validatePhoneNumber(request.Dni);
+        
+        if(!band.success){
+            return {msg: band.msg,success: band.success, data:null}
+        }
+        band = await this.validateService.validateFirstName(request.FirstName);
+        
+        if(!band.success){
+            return {msg: band.msg,success: band.success, data:null}
+        }
+        band = await this.validateService.validateLastName(request.LastName);
 
         if(!band.success){
             return {msg: band.msg,success: band.success, data:null}
         }
 
+        const userDni = await this.userRepository.findOne({where: {Dni: request.Dni}})
+
+        if(!userDni){
+            return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
+        }
       const newUser = this.userRepository.create({
         FirstName: request.FirstName,
         LastName: request.LastName,
