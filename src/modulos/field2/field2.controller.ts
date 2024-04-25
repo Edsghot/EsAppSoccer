@@ -34,6 +34,6 @@ export class Field2Controller {
 
     @Get("/test")
     async test(){
-      return await this.fieldsService.GetFieldCountByDateAndArea("2024-04-27","Marketing")
+      return await this.fieldsService.getFieldCountByDateAndArea("2024-04-27","Marketing")
     }
 }
