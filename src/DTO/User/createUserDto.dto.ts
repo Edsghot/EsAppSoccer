@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber } from "class-validator";
+import { IsString, IsNotEmpty, IsNumber, IsEmail } from "class-validator";
 
 // create-user.dto.ts
 export class CreateUserDto {
@@ -16,10 +16,6 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    EmployeeCode: string;
-
-    @IsString()
-    @IsNotEmpty()
     Area: string;
 
     @IsString()
@@ -30,7 +26,7 @@ export class CreateUserDto {
     @IsNotEmpty()
     PhoneNumber: string;
 
-    @IsString()
+    @IsEmail()
     @IsNotEmpty()
     Mail: string;
 

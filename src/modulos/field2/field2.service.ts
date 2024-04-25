@@ -146,7 +146,7 @@ export class Field2Service {
   async GetFieldByDateWeekend(startDate: Date, endDate: Date, dateDay: Date, area: string): Promise<number> {
     try {
       const data = await this.fieldRepository.query(
-        `CALL GetFieldCountByDateAndArea('${startDate.toISOString().slice(0, 10)}', '${endDate.toISOString().slice(0, 10)}', '${dateDay.toISOString().slice(0, 10)}', '${area}')`
+        `CALL GetFieldCountByDateAndArea('${startDate}', '${endDate}', '${dateDay}', '${area}')`
       );
       const contador = parseInt(data[0][0].contador);
       return isNaN(contador) ? 0 : contador;

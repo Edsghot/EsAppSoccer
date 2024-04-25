@@ -2,11 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Field1Entity } from './Field1.entity';
 import { Field2Entity } from './Field2.entity';
 
-enum Shift {
-    MORNING = 'Morning',
-    NIGHT = 'Night',
-}
-
 @Entity("User")
 export class UserEntity {
     @PrimaryGeneratedColumn()
@@ -36,11 +31,7 @@ export class UserEntity {
     @Column()
     Area: string;
 
-    @Column({
-        type: 'enum',
-        enum: Shift,
-        default: Shift.MORNING,
-    })
+    @Column()
     Shift: string;
 
     @Column()
