@@ -25,7 +25,7 @@ export class UserService {
         band = await this.validateService.validatePhoneNumber(request.Dni);
 
         if(!band.success){
-            return{msg: band.msg,success: band.success, data:null}
+            return {msg: band.msg,success: band.success, data:null}
         }
 
       const newUser = this.userRepository.create({
