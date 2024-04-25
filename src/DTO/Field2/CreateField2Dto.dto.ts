@@ -1,7 +1,7 @@
 export class CreateField2Dto{
     IdUser: number;
-    StartWeekend: Date;
-    EndWeekend: Date;
+    StartWeekend: string;
+    EndWeekend: string;
     StartTime: string;
     EndTime: string;
     DateDay: string;
