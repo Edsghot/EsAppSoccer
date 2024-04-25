@@ -30,7 +30,7 @@ export class Field2Service {
       const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area);
 
       if(contadorDia > 0){
-        return {msg: "El area de "+user.Area.toUpperCase()+" ya se registro el dia hoy", success: false}
+        return {msg: "El area de "+user.Area.toUpperCase()+" ya se registro para este dia", success: false}
       }
       newF.DateDay = request.DateDay;
 
