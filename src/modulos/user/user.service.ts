@@ -44,7 +44,7 @@ export class UserService {
 
         const userDni = await this.userRepository.findOne({where: {Dni: request.Dni}})
 
-        if(!userDni){
+        if(userDni){
             return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
         }
       const newUser = this.userRepository.create({
