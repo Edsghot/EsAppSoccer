@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { count } from 'console';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field1Entity } from 'src/ENTITY/Field1.entity';
@@ -23,6 +24,8 @@ export class Field1Service {
       if (!user) {
         return { msg: 'no se encontro el usuario', success: false };
       }
+
+
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;

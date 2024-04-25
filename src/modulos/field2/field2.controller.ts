@@ -31,4 +31,9 @@ export class Field2Controller {
     async GetAllWeekly(@Query() request: WeeklyDto) {
       return await this.fieldsService.getAllWeekly(request);
     }
+
+    @Get("/test")
+    async test(){
+      return await this.fieldsService.GetFieldCountByDateAndArea("2024-04-27","Marketing")
+    }
 }

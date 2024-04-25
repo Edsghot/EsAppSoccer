@@ -27,7 +27,17 @@ export class Field2Service {
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
+      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area);
+      if(contadorDia > 1){
+        return {msg: "Ya se registro el dia de hoy", success: false}
+      }
       newF.DateDay = request.DateDay;
+
+      const contadorSemana = await this.GetFieldByDateWeekend(request.StartWeekend,request.EndWeekend,new Date(request.DateDay),user.Area)
+
+      if(contadorSemana > 2){
+        return {msg: "Ya se registro 2 veces durante esta semana", success: false}
+      }
 
       const field = await this.fieldRepository.create(newF);
 
@@ -121,4 +131,29 @@ export class Field2Service {
       };
     }
   }
+
+  async getFieldCountByDateAndArea(dateDay: string, area: string): Promise<number> {
+    try {
+      const data = await this.fieldRepository.query(
+        `CALL GetFieldCountByDateAndArea('${dateDay}', '${area}')`,
+      );
+      const contador = parseInt(data[0][0].contador);
+      return isNaN(contador) ? 0 : contador;
+    } catch (error) {
+      return 0;
+    }
+  }
+  async GetFieldByDateWeekend(startDate: Date, endDate: Date, dateDay: Date, area: string): Promise<number> {
+    try {
+      const data = await this.fieldRepository.query(
+        `CALL GetFieldCountByDateAndArea('${startDate.toISOString().slice(0, 10)}', '${endDate.toISOString().slice(0, 10)}', '${dateDay.toISOString().slice(0, 10)}', '${area}')`
+      );
+      const contador = parseInt(data[0][0].contador);
+      return isNaN(contador) ? 0 : contador;
+    } catch (error) {
+      return 0;
+    }
+  }
+  
+
 }
