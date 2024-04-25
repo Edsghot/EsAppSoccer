@@ -22,16 +22,14 @@ export class ValidateService {
     
 
     async validatePhoneNumber(phone: string) {
-        // Eliminar espacios en blanco, guiones y paréntesis del número de teléfono
-        const cleanedPhoneNumber = phone.replace(/\s/g, "").replace(/-/g, "").replace(/\(/g, "").replace(/\)/g, "");
     
         // Validar que el número de teléfono contenga solo dígitos numéricos
-        if (!/^\d+$/.test(cleanedPhoneNumber)) {
+        if (!/^\d+$/.test(phone)) {
             return { success: false, msg: "El número de teléfono debe contener solo dígitos numéricos" };
         }
     
         // Validar la longitud del número de teléfono
-        if (cleanedPhoneNumber.length !== 9) {
+        if (phone.length !== 9) {
             return { success: false, msg: "El número de teléfono debe tener 9 dígitos" };
         }
     
