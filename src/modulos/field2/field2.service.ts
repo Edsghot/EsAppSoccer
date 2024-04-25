@@ -34,7 +34,7 @@ export class Field2Service {
       }
       newF.DateDay = request.DateDay;
 
-      const contadorSemana = await this.GetFieldByDateWeekend(new Date(request.StartWeekend),new Date(request.EndWeekend),new Date(request.DateDay),user.Area)
+      const contadorSemana = await this.GetFieldByDateWeekend(new Date(request.StartWeekend),new Date(request.EndWeekend),user.Area)
 
       
       if(contadorSemana > 1){
@@ -145,17 +145,19 @@ export class Field2Service {
       return 2;
     }
   }
-  async GetFieldByDateWeekend(startDate: Date, endDate: Date, dateDay: Date, area: string): Promise<number> {
+  async GetFieldByDateWeekend(startDate: Date, endDate: Date, area: string): Promise<number> {
     try {
       const data = await this.fieldRepository.query(
-        `CALL GetFieldCountByWeekend('${startDate}', '${endDate}', '${dateDay}', '${area}')`
+        `CALL GetFieldCountByWeekend(?, ?, ?)`,
+        [startDate, endDate, area]
       );
       const contador = parseInt(data[0][0].contador);
       return isNaN(contador) ? 0 : contador;
     } catch (error) {
       return 5;
     }
-  }
+}
+
   
 
 }

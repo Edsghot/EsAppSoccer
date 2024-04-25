@@ -61,13 +61,15 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE GetFieldCountByWeekend (IN StartWeekend DATE, IN EndWeekend DATE, IN p_DateDay DATE, IN p_Area VARCHAR(255))
+CREATE PROCEDURE GetFieldCountByWeekend (IN StartWeekend DATE, IN EndWeekend DATE, IN p_Area VARCHAR(255))
 BEGIN
     SELECT COUNT(Field2.IdField2Entity) AS contador
     FROM Field2
     INNER JOIN User ON Field2.userIdUser = User.IdUser
-    WHERE StartWeekend <= p_DateDay AND EndWeekend >= p_DateDay AND User.Area = p_Area;
+    WHERE User.Area = p_Area AND Field2.DateDay BETWEEN StartWeekend AND EndWeekend;
+
 END //
 
 DELIMITER ;
+
 
