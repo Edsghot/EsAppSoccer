@@ -32,8 +32,12 @@ export class Field2Controller {
       return await this.fieldsService.getAllWeekly(request);
     }
 
-    @Get("/test")
-    async test(){
-      return await this.fieldsService.getFieldCountByDateAndArea("2024-04-27","Marketing")
+    @Get('/test')
+    async test() {
+        const startDate = new Date("2024-04-01"); // fecha de inicio de prueba
+        const endDate = new Date("2024-04-30"); // fecha de fin de prueba
+        const dateDay = new Date("2024-04-27"); // fecha de día de prueba
+        const area = "Marketing"; // área de prueba
+        return await this.fieldsService.GetFieldByDateWeekend(startDate, endDate, dateDay, area);
     }
 }
