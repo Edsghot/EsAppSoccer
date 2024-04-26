@@ -27,14 +27,14 @@ export class Field2Service {
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
-      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area);
+      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area,user.Shift);
 
       if(contadorDia > 0){
         return {msg: "El area de "+user.Area.toUpperCase()+" ya se registro para este dia", success: false}
       }
       newF.DateDay = request.DateDay;
 
-      const contadorSemana = await this.GetFieldByDateWeekend(new Date(request.StartWeekend),new Date(request.EndWeekend),user.Area)
+      const contadorSemana = await this.GetFieldByDateWeekend(new Date(request.StartWeekend),new Date(request.EndWeekend),user.Area,user.Shift)
 
       
       if(contadorSemana > 1){
@@ -134,10 +134,10 @@ export class Field2Service {
     }
   }
 
-  async getFieldCountByDateAndArea(dateDay: string, area: string): Promise<number> {
+  async getFieldCountByDateAndArea(dateDay: string, area: string,turno:string): Promise<number> {
     try {
       const data = await this.fieldRepository.query(
-        `CALL GetFieldCountByDateAndArea('${dateDay}', '${area}')`,
+        `CALL GetFieldCountByDateAndArea('${dateDay}', '${area}', '${turno}')`,
       );
       const contador = parseInt(data[0][0].contador);
       return isNaN(contador) ? 0 : contador;
@@ -145,11 +145,11 @@ export class Field2Service {
       return 2;
     }
   }
-  async GetFieldByDateWeekend(startDate: Date, endDate: Date, area: string): Promise<number> {
+  async GetFieldByDateWeekend(startDate: Date, endDate: Date, area: string,turno:string): Promise<number> {
     try {
       const data = await this.fieldRepository.query(
-        `CALL GetFieldCountByWeekend(?, ?, ?)`,
-        [startDate, endDate, area]
+        `CALL GetFieldCountByWeekend(?, ?, ?,?)`,
+        [startDate, endDate, area,turno]
       );
       const contador = parseInt(data[0][0].contador);
       return isNaN(contador) ? 0 : contador;

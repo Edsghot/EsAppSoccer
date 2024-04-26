@@ -49,24 +49,24 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE GetFieldCountByDateAndArea (IN p_DateDay VARCHAR(255), IN p_Area VARCHAR(255))
+CREATE PROCEDURE GetFieldCountByDateAndArea (IN p_DateDay VARCHAR(255), IN p_Area VARCHAR(255),IN p_turno VARCHAR(255))
 BEGIN
     SELECT COUNT(Field2.IdField2Entity) AS contador
     FROM Field2
     INNER JOIN User ON Field2.userIdUser = User.IdUser
-    WHERE DateDay = p_DateDay AND User.Area = p_Area;
+    WHERE DateDay = p_DateDay AND User.Area = p_Area AND User.Shift = p_turno;
 END //
 
 DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE GetFieldCountByWeekend (IN StartWeekend DATE, IN EndWeekend DATE, IN p_Area VARCHAR(255))
+CREATE PROCEDURE GetFieldCountByWeekend (IN StartWeekend DATE, IN EndWeekend DATE, IN p_Area VARCHAR(255),IN P_turno Varchar(255))
 BEGIN
     SELECT COUNT(Field2.IdField2Entity) AS contador
     FROM Field2
     INNER JOIN User ON Field2.userIdUser = User.IdUser
-    WHERE User.Area = p_Area AND Field2.DateDay BETWEEN StartWeekend AND EndWeekend;
+    WHERE User.Area = p_Area AND Field2.DateDay BETWEEN StartWeekend AND EndWeekend AND User.Shift = P_turno;
 
 END //
 
