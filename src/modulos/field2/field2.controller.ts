@@ -34,9 +34,8 @@ export class Field2Controller {
 
     @Get('/test')
     async test() {
-        const startDate = new Date("2024-04-24"); // fecha de inicio de prueba
-        const endDate = new Date("2024-04-27"); // fecha de fin de prueba
-        const area = "Marketing"; // área de prueba
-        return await this.fieldsService.GetFieldByDateWeekend(startDate, endDate, area,"morning");
+        const Date = "2024-04-22-2024-04-28"// área de prueba
+
+        return await this.fieldsService.GetFieldByDateWeekend(Date,2);
     }
 }

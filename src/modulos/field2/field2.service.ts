@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +14,8 @@ export class Field2Service {
     private readonly fieldRepository: Repository<Field2Entity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(BookingEntity)
+    private readonly bookingEntity: Repository<BookingEntity>
   ) {}
 
   async CreateField2(request: CreateField2Dto) {
@@ -34,7 +37,8 @@ export class Field2Service {
       }
       newF.DateDay = request.DateDay;
 
-      const contadorSemana = await this.GetFieldByDateWeekend(new Date(request.StartWeekend),new Date(request.EndWeekend),user.Area,user.Shift)
+      const DateWeekend = request.StartWeekend+"-"+request.EndWeekend;
+      const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend,user.IdUser);
 
       
       if(contadorSemana > 1){
@@ -145,17 +149,28 @@ export class Field2Service {
       return 2;
     }
   }
-  async GetFieldByDateWeekend(startDate: Date, endDate: Date, area: string,turno:string): Promise<number> {
-    try {
-      const data = await this.fieldRepository.query(
-        `CALL GetFieldCountByWeekend(?, ?, ?,?)`,
-        [startDate, endDate, area,turno]
-      );
-      const contador = parseInt(data[0][0].contador);
-      return isNaN(contador) ? 0 : contador;
-    } catch (error) {
-      return 5;
+
+async GetFieldByDateWeekend(DateWeekend: string,idUser:number): Promise<number> {
+  try {
+    
+    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdUser:idUser}});
+    if(!validate){
+        var newBooking = new BookingEntity();
+        newBooking.DateWeekend = DateWeekend;
+        newBooking.Quantity = 1;
+        newBooking.IdUser = idUser;
+
+        const booking = await this.bookingEntity.create(newBooking);
+        await this.bookingEntity.save(booking);
+        return 1;
+    }else{
+       validate.Quantity = validate.Quantity+1;
+       await this.bookingEntity.save(validate);
+       return validate.Quantity;
     }
+  } catch (error) {
+    return 5;
+  }
 }
 
   
