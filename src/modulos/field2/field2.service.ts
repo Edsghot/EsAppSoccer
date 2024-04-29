@@ -41,7 +41,7 @@ export class Field2Service {
       const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend,user.IdUser);
 
       
-      if(contadorSemana > 1){
+      if(contadorSemana > 2){
         return {msg: "El area de "+user.Area.toUpperCase()+" ya supero el limite de registro de esta semana", success: false}
       }
 
