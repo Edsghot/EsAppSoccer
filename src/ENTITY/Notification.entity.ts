@@ -2,11 +2,11 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 import { ManagementEntity } from "./Management.entity";
 
 @Entity("Notification")
-export class NotificationEntitty{
+export class NotificationEntity{
     @PrimaryGeneratedColumn()
     IdNotification:number;
     @Column()
-    Mesage:string;
+    Message:string;
     @Column()
     Date:Date;
     @ManyToOne(()=>ManagementEntity,management=>management.Notification)

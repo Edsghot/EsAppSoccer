@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AreaEntity } from "./Area.entity";
-import { NotificationEntitty } from "./Notification.entity";
+import { NotificationEntity } from "./Notification.entity";
 import { UserEntity } from "./User.entity";
 
 @Entity("Management")
@@ -11,6 +11,6 @@ export class ManagementEntity{
     NameManagement:string;
     @OneToMany(() => AreaEntity, area => area.IdArea)
     Area: AreaEntity[];
-    @OneToMany(() => NotificationEntitty, notification => notification.Management)
-    Notification: NotificationEntitty[];
+    @OneToMany(() => NotificationEntity, notification => notification.Management)
+    Notification: NotificationEntity[];
 }
