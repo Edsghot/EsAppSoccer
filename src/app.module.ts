@@ -3,6 +3,10 @@ import { UserModule } from './modulos/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Field1Module } from './modulos/field1/field1.module';
 import { Field2Module } from './modulos/field2/field2.module';
+import { AreaModule } from './modulos/area/area.module';
+import { ManagementModule } from './modulos/management/management.module';
+import { NotificationModule } from './modulos/notification/notification.module';
+import { ReportModule } from './modulos/report/report.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -14,7 +18,7 @@ import { Field2Module } from './modulos/field2/field2.module';
     database: 'nibcqvah_EsAppSoccer',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
-}),UserModule, Field1Module, Field2Module],
+}),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule],
   controllers: [],
   providers: [ ],
 })

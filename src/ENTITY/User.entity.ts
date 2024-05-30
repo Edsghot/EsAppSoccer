@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Field1Entity } from './Field1.entity';
 import { Field2Entity } from './Field2.entity';
+import { BookingEntity } from './Booking.entity';
 
 @Entity("User")
 export class UserEntity {
@@ -45,4 +46,7 @@ export class UserEntity {
 
     @Column()
     Laboratory: string;
+
+    @OneToMany(()=>BookingEntity,booking=>booking.IdBooking)
+    Booking:BookingEntity[];
 }
