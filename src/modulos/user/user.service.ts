@@ -6,6 +6,8 @@ import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
 import { UserEntity } from 'src/ENTITY/User.entity';
 import { Repository } from 'typeorm';
 import { ValidateService } from '../Validate/validate.service';
+import { ManagementEntity } from 'src/ENTITY/Management.entity';
+import { AreaEntity } from 'src/ENTITY/Area.entity';
 
 @Injectable()
 export class UserService {
@@ -13,6 +15,10 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(ManagementEntity)
+    private readonly managementRepository: Repository<ManagementEntity>,
+    @InjectRepository(AreaEntity)
+    private readonly areaRepository: Repository<AreaEntity>,
     private validateService: ValidateService,
   ) {
     this.code = 0;
@@ -47,6 +53,15 @@ export class UserService {
         if(userDni){
             return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
         }
+
+      const management = await this.managementRepository.findOne({where:{IdManagement: request.IdManagement}});
+
+      const area = await this.areaRepository.findOne({where:{IdArea:request.IdArea}})
+      if(!management){
+        return {msg:"No se encontro la generencia",success: false,data: null};
+      }
+
+      
       const newUser = this.userRepository.create({
         FirstName: request.FirstName,
         LastName: request.LastName,
@@ -57,11 +72,11 @@ export class UserService {
         PhoneNumber: request.PhoneNumber,
         Dni: request.Dni,
         EmployeeCode: 'AS' + this.code++,
-        Area: request.Area,
+        Management: management,
+        Area: area, 
         Shift: request.Shift,
         Mail: request.Mail,
         Rol: request.Rol,
-        Laboratory: request.Laboratory,
       });
 
       // Guardar la nueva entidad de usuario en la base de datos
@@ -88,7 +103,6 @@ export class UserService {
       user.PhoneNumber = updateUserDto.PhoneNumber;
       user.Dni = updateUserDto.Dni;
       user.EmployeeCode = updateUserDto.EmployeeCode;
-      user.Area = updateUserDto.Area;
       user.Shift = updateUserDto.Shift;
       user.Mail = updateUserDto.Mail;
       user.Rol = updateUserDto.Rol;

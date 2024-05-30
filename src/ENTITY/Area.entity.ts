@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ManagementEntity } from "./Management.entity";
 import { ReportEntity } from "./Report.entity";
+import { UserEntity } from "./User.entity";
 
 @Entity("Area")
 export class AreaEntity{
@@ -14,4 +15,6 @@ export class AreaEntity{
     Management: ManagementEntity;
     @OneToMany(() => ReportEntity, report => report.Area)
     Report: ReportEntity[];
+    @OneToMany(()=>UserEntity,m=>m.Management)
+    User:UserEntity[];
 }

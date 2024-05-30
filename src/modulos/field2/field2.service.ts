@@ -30,10 +30,10 @@ export class Field2Service {
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
-      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area,user.Shift);
+      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area.NameArea,user.Shift);
 
       if(contadorDia > 0){
-        return {msg: "El area de "+user.Area.toUpperCase()+" ya se registro para este dia", success: false}
+        return {msg: "El area de "+user.Area.NameArea.toUpperCase()+" ya se registro para este dia", success: false}
       }
       newF.DateDay = request.DateDay;
 
@@ -42,7 +42,7 @@ export class Field2Service {
 
       
       if(contadorSemana > 2){
-        return {msg: "El area de "+user.Area.toUpperCase()+" ya supero el limite de registro de esta semana", success: false}
+        return {msg: "El area de "+user.Area.NameArea.toUpperCase()+" ya supero el limite de registro de esta semana", success: false}
       }
 
       const field = await this.fieldRepository.create(newF);
