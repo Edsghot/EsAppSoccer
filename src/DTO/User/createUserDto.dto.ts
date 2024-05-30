@@ -14,9 +14,11 @@ export class CreateUserDto {
     @IsNotEmpty()
     Dni: string;
 
-    @IsString()
     @IsNotEmpty()
-    Area: string;
+    IdManagement: number;
+
+    @IsNotEmpty()
+    IdArea: number;
 
     @IsString()
     @IsNotEmpty()
@@ -32,6 +34,4 @@ export class CreateUserDto {
 
     @IsNumber()
     Rol: number;
-
-    Laboratory:string;
 }

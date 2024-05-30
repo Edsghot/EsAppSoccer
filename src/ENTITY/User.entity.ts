@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { Field1Entity } from './Field1.entity';
 import { Field2Entity } from './Field2.entity';
 import { BookingEntity } from './Booking.entity';
+import { ManagementEntity } from './Management.entity';
+import { AreaEntity } from './Area.entity';
 
 @Entity("User")
 export class UserEntity {
@@ -29,8 +31,11 @@ export class UserEntity {
     @Column()
     EmployeeCode: string;
 
-    @Column()
-    Area: string;
+    @ManyToOne(() => ManagementEntity, m => m.IdManagement)
+    Management: ManagementEntity;
+
+    @ManyToOne(() => AreaEntity, m => m.IdArea)
+    Area: AreaEntity;
 
     @Column()
     Shift: string;
@@ -42,10 +47,7 @@ export class UserEntity {
     Mail: string;
 
     @Column()
-    Rol: number;
-
-    @Column()
-    Laboratory: string;
+    Rol: number;   
 
     @Column()
     IndActive:Boolean;
