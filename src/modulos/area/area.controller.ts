@@ -32,7 +32,4 @@ export class AreaController {
     async updateArea(@Param('id') id: number,@Body() updateAreaDto:UpdateAreaDto){
         return await this.areaService.updateArea(updateAreaDto,id);
     }
-
-    //@Put('/update')
-    //async updateArea()
 }

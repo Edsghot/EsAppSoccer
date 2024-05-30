@@ -30,7 +30,7 @@ export class AreaService {
             await this.areaRepository.save(Create);
             return { msg: 'se inserto correctamente', success: true }
         } catch (e) {
-            console.log("erro: ", e)
+            console.error("Error: ", e)
             return { msg: 'Error no se pudo insertar', success: false, detailMsg: e }
         }
     }
@@ -60,7 +60,7 @@ export class AreaService {
     async deleteArea(areaId:number){
         try{
             await this.areaRepository.delete(areaId)
-            return { msg: 'Area deleted successfully', success: true };
+            return { msg: 'Se elimino correctamente el area', success: true };
         }catch(e){
             console.error('Failed to delete area:', e);
             return { msg: 'Failed to delete area', detailMsg: e, success: false };
@@ -89,7 +89,7 @@ export class AreaService {
             area.NameArea=updateAreaDto.NameArea;
 
             await this.areaRepository.save(area)
-            return { msg: 'Area updated successfully', success: true };
+            return { msg: 'Se actualizo correctamente el area', success: true };
         }catch(e){
             console.error('Failed to update area:', e);
             return { msg: 'Failed to update area', detailMsg: e, success: false };
