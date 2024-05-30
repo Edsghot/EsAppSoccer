@@ -13,6 +13,4 @@ export class ManagementEntity{
     Area: AreaEntity[];
     @OneToMany(() => NotificationEntitty, notification => notification.Management)
     Notification: NotificationEntitty[];
-    @OneToMany(()=>UserEntity,m=>m.Management)
-    User:UserEntity[];
 }

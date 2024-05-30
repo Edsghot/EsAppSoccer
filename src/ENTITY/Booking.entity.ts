@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserEntity } from "./User.entity";
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
 
 @Entity("Booking")
 export class BookingEntity{
@@ -9,11 +10,10 @@ export class BookingEntity{
     DateWeekend: string;
     @Column()
     Quantity: number;
-    @Column()
-    IdUser: number;
     @Column("text")
     ListPlayer:string;
-
-    @ManyToOne(()=>UserEntity,user=>user.Booking)
-    user:UserEntity;
+    @Column()
+    IdUser: number;
+    @Column()
+    IdFiel:Number;
 }

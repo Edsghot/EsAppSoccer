@@ -15,6 +15,6 @@ export class AreaEntity{
     Management: ManagementEntity;
     @OneToMany(() => ReportEntity, report => report.Area)
     Report: ReportEntity[];
-    @OneToMany(()=>UserEntity,m=>m.Management)
+    @OneToMany(()=>UserEntity,m=>m.Area)
     User:UserEntity[];
 }

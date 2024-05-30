@@ -9,7 +9,7 @@ import { AreaEntity } from 'src/ENTITY/Area.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([UserEntity]),TypeOrmModule.forFeature([ManagementEntity]),TypeOrmModule.forFeature([AreaEntity])
+        TypeOrmModule.forFeature([UserEntity]),TypeOrmModule.forFeature([AreaEntity])
       ],
   controllers: [UserController],
   providers: [UserService,ValidateService]

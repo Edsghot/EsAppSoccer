@@ -15,9 +15,6 @@ export class CreateUserDto {
     Dni: string;
 
     @IsNotEmpty()
-    IdManagement: number;
-
-    @IsNotEmpty()
     IdArea: number;
 
     @IsString()

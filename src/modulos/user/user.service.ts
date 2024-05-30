@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { create } from 'domain';
 import { CreateUserDto } from 'src/DTO/User/createUserDto.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
 import { UserEntity } from 'src/ENTITY/User.entity';
 import { Repository } from 'typeorm';
 import { ValidateService } from '../Validate/validate.service';
-import { ManagementEntity } from 'src/ENTITY/Management.entity';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 
 @Injectable()
@@ -15,8 +13,6 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(ManagementEntity)
-    private readonly managementRepository: Repository<ManagementEntity>,
     @InjectRepository(AreaEntity)
     private readonly areaRepository: Repository<AreaEntity>,
     private validateService: ValidateService,
@@ -54,11 +50,10 @@ export class UserService {
             return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
         }
 
-      const management = await this.managementRepository.findOne({where:{IdManagement: request.IdManagement}});
-
+    
       const area = await this.areaRepository.findOne({where:{IdArea:request.IdArea}})
-      if(!management){
-        return {msg:"No se encontro la generencia",success: false,data: null};
+      if(!area){
+        return {msg:"No se encontro la Area",success: false,data: null};
       }
 
       
@@ -72,7 +67,6 @@ export class UserService {
         PhoneNumber: request.PhoneNumber,
         Dni: request.Dni,
         EmployeeCode: 'AS' + this.code++,
-        Management: management,
         Area: area, 
         Shift: request.Shift,
         Mail: request.Mail,

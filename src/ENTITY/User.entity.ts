@@ -31,9 +31,6 @@ export class UserEntity {
     @Column()
     EmployeeCode: string;
 
-    @ManyToOne(() => ManagementEntity, m => m.IdManagement)
-    Management: ManagementEntity;
-
     @ManyToOne(() => AreaEntity, m => m.IdArea)
     Area: AreaEntity;
 
