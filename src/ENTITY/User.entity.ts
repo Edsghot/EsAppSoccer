@@ -47,6 +47,9 @@ export class UserEntity {
     @Column()
     Laboratory: string;
 
+    @Column()
+    IndActive:Boolean;
+
     @OneToMany(()=>BookingEntity,booking=>booking.IdBooking)
     Booking:BookingEntity[];
 }
