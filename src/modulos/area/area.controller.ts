@@ -1,14 +1,15 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AreaService } from './area.service';
-import { AreaDto } from 'src/DTO/Area/Area.dto';
+import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
+import { UpdateAreaDto } from 'src/DTO/Area/UpdateArea.dto';
 
 @Controller('api/area')
 export class AreaController {
     constructor(private readonly areaService: AreaService) { }
 
     @Post('/insert')
-    async insertArea(@Body() request: AreaDto) {
+    async insertArea(@Body() request: CreateAreaDto) {
         return await this.areaService.CreateArea(request);
     }
 
@@ -27,8 +28,8 @@ export class AreaController {
         return await this.areaService.deleteArea(id);
     }
 
-    @Put('update/:id')
-    async updateArea(@Param('id') id: number,@Body() updateAreaDto:AreaDto){
+    @Put('/update/:id')
+    async updateArea(@Param('id') id: number,@Body() updateAreaDto:UpdateAreaDto){
         return await this.areaService.updateArea(updateAreaDto,id);
     }
 

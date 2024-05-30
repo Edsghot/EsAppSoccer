@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AreaDto } from 'src/DTO/Area/Area.dto';
+import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
+import { UpdateAreaDto } from 'src/DTO/Area/UpdateArea.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { ManagementEntity } from 'src/ENTITY/Management.entity';
@@ -12,7 +13,7 @@ export class AreaService {
                 @InjectRepository(ManagementEntity) private readonly managementRepository: Repository<ManagementEntity>) { }
 
 
-    async CreateArea(request: AreaDto) {
+    async CreateArea(request: CreateAreaDto) {
         try {
             var newArea = new AreaEntity();
             const management = await this.managementRepository.findOne({
@@ -66,13 +67,32 @@ export class AreaService {
         }
     }
 
-    async updateArea(updateAreaDto:AreaDto,areaId:number){
+    async updateArea(updateAreaDto:UpdateAreaDto,areaId:number){
         try{
             const area=await this.areaRepository.findOne({
-                where:{IdArea:updateAreaDto.IdArea}
+                where:{IdArea:areaId}
             })
-        }catch{
+            if(!area){
+                return { msg: 'No se encontro el area', success: false };
+            }
+            if(updateAreaDto.IdManagement){
+                const management = await this.managementRepository.findOne({
+                    where:{IdManagement:updateAreaDto.IdManagement}
+                })
+                if(!management){
+                    return{msg:'No se encontro la gerencia',success:false}
+                }
+                
+                area.Management=management;
+            }
+            
+            area.NameArea=updateAreaDto.NameArea;
 
+            await this.areaRepository.save(area)
+            return { msg: 'Area updated successfully', success: true };
+        }catch(e){
+            console.error('Failed to update area:', e);
+            return { msg: 'Failed to update area', detailMsg: e, success: false };
         }
     }
 }
