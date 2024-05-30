@@ -14,6 +14,4 @@ export class BookingEntity{
     ListPlayer:string;
     @Column()
     IdUser: number;
-    @Column()
-    IdFiel:Number;
 }
