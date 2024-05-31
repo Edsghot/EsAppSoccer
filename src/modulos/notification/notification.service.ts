@@ -48,6 +48,9 @@ export class NotificationService {
             const notification=await this.notificationRepository.findOne({
                 where:{IdNotification:notificationId}
             });
+            if(!notification){
+                return {msg:"La notificacion no existe",success:false}
+            }
             return {data:notification,msg:"success",success:true}
         }catch(e){
             console.error('Failed to get notification by ID:', e);
@@ -82,8 +85,9 @@ export class NotificationService {
             notification.Message=updateNotificationDto.Message;
             await this.notificationRepository.save(notification);
             return { msg: 'Se actualizo correctamente la notificacion', success: true };
-        }catch{
-
+        }catch(e){
+            console.error('Failed to update notification:', e);
+            return { msg: 'Failed to update notification', detailMsg: e, success: false };
         }
     }
 }
