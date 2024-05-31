@@ -156,7 +156,7 @@ async GetFieldByDateWeekend(DateWeekend: string,idUser:number): Promise<number> 
     const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdUser:idUser}});
     if(!validate){
         var newBooking = new BookingEntity();
-        newBooking.DateWeekend = DateWeekend;
+        newBooking.DateWeekend = DateWeekend
         newBooking.Quantity = 1;
         newBooking.IdUser = idUser;
 

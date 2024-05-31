@@ -23,7 +23,7 @@ export class ReportController {
     }
 
     @Get('/getByDay')
-    async getReportByDay(@Body()dateDay:Date){
+    async getReportByDay(@Body()dateDay:string){
         return this.reportService.getReportByDay(dateDay);
     }
 

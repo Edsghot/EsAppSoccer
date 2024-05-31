@@ -8,7 +8,9 @@ export class ReportEntity{
     @Column("text")
     Description:string;
     @Column()
-    Date:Date;
+    Date:string;
+    @Column()
+    NamePlayer:string;
     @ManyToOne(() => AreaEntity, area => area.Report)
     Area: AreaEntity;
 }
