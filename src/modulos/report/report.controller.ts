@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
 import { UpdateReportDto } from 'src/DTO/Report/UpdateReport.dto';
@@ -17,9 +17,14 @@ export class ReportController {
         return this.reportService.getAllReports();
     }
 
-    @Get(':id')
+    @Get('/getById/:id')
     async getReportById(@Param('id') id: number) {
         return this.reportService.getReportById(id);
+    }
+
+    @Get('/getByDay')
+    async getReportByDay(@Body()dateDay:Date){
+        return this.reportService.getReportByDay(dateDay);
     }
 
     @Delete(':id')

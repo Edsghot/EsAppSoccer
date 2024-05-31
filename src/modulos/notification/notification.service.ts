@@ -58,6 +58,23 @@ export class NotificationService {
         }
     }
 
+    async getManagementById(managementId:number){
+        try{
+
+            const manag=await this.managementRepository.findOne({where: {IdManagement:managementId}});
+            if(!manag){
+                return {msg:"La gerencia no existe",success:false}
+            }
+            const management=await this.notificationRepository.find({
+                where:{Management:manag}
+            });
+            return {data:management,msg:"success",success:true}
+        }catch(e){
+            console.error('Failed to get management by Id:', e);
+            return { msg: 'Failed to get management by Id', detailMsg: e, success: false };
+        }
+    }
+
     async deleteNotification(notificationId:number){
         try{
             const notification=await this.notificationRepository.findOne({

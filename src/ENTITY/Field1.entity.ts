@@ -16,4 +16,6 @@ export class Field1Entity {
     EndTime: string;
     @Column()
     DateDay: string;
+    @Column("text")
+    ListPlayer:string;
 }

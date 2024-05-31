@@ -10,8 +10,7 @@ export class BookingEntity{
     DateWeekend: string;
     @Column()
     Quantity: number;
-    @Column("text")
-    ListPlayer:string;
+    
     @Column()
     IdUser: number;
 }

@@ -4,6 +4,7 @@ import { Field2Entity } from './Field2.entity';
 import { BookingEntity } from './Booking.entity';
 import { ManagementEntity } from './Management.entity';
 import { AreaEntity } from './Area.entity';
+import { NotificationEntity } from './Notification.entity';
 
 @Entity("User")
 export class UserEntity {
@@ -51,4 +52,7 @@ export class UserEntity {
 
     @OneToMany(()=>BookingEntity,booking=>booking.IdBooking)
     Booking:BookingEntity[];
+
+    @OneToMany(()=>NotificationEntity,notification=>notification.IdNotification)
+    Notification:NotificationEntity[];
 }

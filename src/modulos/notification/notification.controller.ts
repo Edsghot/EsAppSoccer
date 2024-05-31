@@ -17,9 +17,14 @@ export class NotificationController {
         return await this.notificationService.getAllNotification();
     }
 
-    @Get(':id')
+    @Get('/getById/:id')
     async getNotificationById(@Param('id') id: number) {
         return await this.notificationService.getNotificationById(id);
+    }
+
+    @Get('getManagementById/:id')
+    async getManagementById(@Param('id')id:number){
+        return await this.notificationService.getManagementById(id);
     }
 
     @Delete(':id')
