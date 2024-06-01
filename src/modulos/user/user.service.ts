@@ -71,6 +71,7 @@ export class UserService {
         Shift: request.Shift,
         Mail: request.Mail,
         Rol: request.Rol,
+        IndActive: true
       });
 
       // Guardar la nueva entidad de usuario en la base de datos
@@ -104,6 +105,40 @@ export class UserService {
       await this.userRepository.save(user);
 
       return { msg: 'User updated successfully', success: true };
+    } catch (error) {
+      return { msg: 'Failed to update user', detailMsg: error, success: false };
+    }
+  }
+
+  async blockUser(id: number) {
+    try {
+      const user = await this.userRepository.findOne({
+        where: { IdUser: id },
+      });
+      if (!user) {
+        return { msg: 'Usuario no existe', success: false };
+      }
+      user.IndActive = false;
+      await this.userRepository.save(user);
+
+      return { msg: 'usuario '+user.FirstName+" bloqueado", success: true };
+    } catch (error) {
+      return { msg: 'Failed to update user', detailMsg: error, success: false };
+    }
+  }
+
+  async unLock(id: number) {
+    try {
+      const user = await this.userRepository.findOne({
+        where: { IdUser: id },
+      });
+      if (!user) {
+        return { msg: 'Usuario no existe', success: false };
+      }
+      user.IndActive = true;
+      await this.userRepository.save(user);
+
+      return { msg: 'Usuario '+user.FirstName+' desbloqueado', success: true };
     } catch (error) {
       return { msg: 'Failed to update user', detailMsg: error, success: false };
     }
@@ -144,6 +179,7 @@ export class UserService {
   async login(userRequest: string, password: string) {
     try {
       let userRes;
+      
       userRes = await this.userRepository.findOne({
         where: { Dni: userRequest, Password: password },
       });
@@ -156,10 +192,14 @@ export class UserService {
         if (!userRes) {
           return {
             data: null,
-            msg: 'Invalid username or password',
+            msg: 'Verifique su contraseña o usuario',
             success: false,
           };
         }
+      }
+
+      if(!userRes.IndActive){
+        return {data: userRes, msg: 'Este usuario se encuentra bloqueado', success: false }
       }
 
       return { data: userRes, msg: 'Success', success: true };

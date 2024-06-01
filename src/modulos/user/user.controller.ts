@@ -19,6 +19,16 @@ export class UserController {
         return await this.userService.updateUser(updateUserDto);
     }
 
+    @Put('blockUser/:id')
+    async blockUser(@Param("id") id:number) {
+        return await this.userService.blockUser(id);
+    }
+
+    @Put('unLockUser/:id')
+    async unLock(@Param("id") id:number) {
+        return await this.userService.unLock(id);
+    }
+
     @Get()
     async getAllUsers() {
         return await this.userService.getAllUsers();
