@@ -3,4 +3,5 @@ export class CreateField1Dto{
     StartTime: string;
     EndTime: string;
     DateDay: string;
+    ListPlayer: string;
 }

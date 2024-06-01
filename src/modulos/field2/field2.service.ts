@@ -30,6 +30,7 @@ export class Field2Service {
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
+      newF.ListPlayer = request.ListPlayer;
       const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area.NameArea,user.Shift);
 
       if(contadorDia > 0){

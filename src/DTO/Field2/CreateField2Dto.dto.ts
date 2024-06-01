@@ -5,4 +5,5 @@ export class CreateField2Dto{
     StartTime: string;
     EndTime: string;
     DateDay: string;
+    ListPlayer: string;
 }
