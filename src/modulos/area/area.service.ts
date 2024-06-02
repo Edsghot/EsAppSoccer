@@ -60,7 +60,7 @@ export class AreaService {
     async getManagementById(managementId:number){
         try{
             const management = await this.managementRepository.findOne({where: {IdManagement: managementId}});
-            const area=await this.areaRepository.findOne({
+            const area=await this.areaRepository.find({
                 where:{Management:management},
             });
             return {data:area,msg:'Success', success:true}
