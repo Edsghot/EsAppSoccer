@@ -18,9 +18,14 @@ export class AreaController {
         return await this.areaService.getAllAreas();
     }
 
-    @Get(':id')
+    @Get('/getbyId/:id')
     async getAreaById(@Param('id') id: number) {
         return await this.areaService.getAreaById(id);
+    }
+
+    @Get('/getManagementById/:id')
+    async getManagementById(@Param('id') id: number) {
+        return await this.areaService.getManagementById(id);
     }
 
     @Delete(':id')

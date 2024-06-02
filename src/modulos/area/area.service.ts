@@ -57,6 +57,19 @@ export class AreaService {
         }
     }
 
+    async getManagementById(managementId:number){
+        try{
+            const management = await this.managementRepository.findOne({where: {IdManagement: managementId}});
+            const area=await this.areaRepository.findOne({
+                where:{Management:management},
+            });
+            return {data:area,msg:'Success', success:true}
+        }catch(e){
+            console.error('Failed to get area by ID:', e);
+            return { msg: 'Failed to get area', detailMsg: e, success: false };
+        }
+    }
+
     async deleteArea(areaId:number){
         try{
             await this.areaRepository.delete(areaId)
