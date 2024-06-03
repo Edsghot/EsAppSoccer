@@ -7,6 +7,7 @@ import { AreaModule } from './modulos/area/area.module';
 import { ManagementModule } from './modulos/management/management.module';
 import { NotificationModule } from './modulos/notification/notification.module';
 import { ReportModule } from './modulos/report/report.module';
+import { AuthMailModule } from './modulos/auth-mail/auth-mail.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { ReportModule } from './modulos/report/report.module';
     database: 'nibcqvah_EsAppSoccer',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
-}),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule],
+}),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule, AuthMailModule,AuthMailModule],
   controllers: [],
   providers: [ ],
 })

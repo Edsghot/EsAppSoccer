@@ -6,4 +6,5 @@ export class UpdateReportDto{
     Description:string;
     NamePlayer:string;
     IdArea:number;
+    IndViewed: boolean;
 }

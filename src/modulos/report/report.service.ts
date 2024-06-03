@@ -29,6 +29,7 @@ export class ReportService {
             newReport.Area = area;
             newReport.NamePlayer = createReportDto.NamePlayer;
             newReport.Description = createReportDto.Description;
+            newReport.IndViewed = false;
             var fec = new Date();
             let day = fec.getDate().toString();
             let month = (fec.getMonth()+1).toString();
@@ -126,6 +127,7 @@ export class ReportService {
             }
             report.NamePlayer = updateReportDto.NamePlayer;
             report.Description = updateReportDto.Description;
+            report.IndViewed = updateReportDto.IndViewed;
             await this.reportRepository.save(report);
             return { msg: 'Se actualizo correctamente el reporte', success: true };
         } catch (e) {

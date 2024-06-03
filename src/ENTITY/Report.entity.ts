@@ -8,6 +8,8 @@ export class ReportEntity{
     @Column("text")
     Description:string;
     @Column()
+    IndViewed: Boolean;
+    @Column()
     Date:string;
     @Column()
     NamePlayer:string;

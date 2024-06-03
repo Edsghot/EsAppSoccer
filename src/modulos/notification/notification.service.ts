@@ -23,6 +23,7 @@ export class NotificationService {
             }
             newNotification.Management=management;
             newNotification.Message=createNotificationDto.Message;
+            newNotification.IndViewed = false;
             newNotification.Date=new Date();
             var Create=await this.notificationRepository.create(newNotification);
             await this.notificationRepository.save(Create);
@@ -100,6 +101,7 @@ export class NotificationService {
                 return {msg: 'No se encontro la notificacion', success: false }
             }
             notification.Message=updateNotificationDto.Message;
+            notification.IndViewed = updateNotificationDto.IndViewed;
             await this.notificationRepository.save(notification);
             return { msg: 'Se actualizo correctamente la notificacion', success: true };
         }catch(e){

@@ -2,9 +2,16 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'ty
 import { Field1Entity } from './Field1.entity';
 import { Field2Entity } from './Field2.entity';
 import { BookingEntity } from './Booking.entity';
-import { ManagementEntity } from './Management.entity';
 import { AreaEntity } from './Area.entity';
 import { NotificationEntity } from './Notification.entity';
+
+
+/*
+1. exclusivo
+2. trabajador normal
+3. administrado de cancha
+4. administrador de sistema
+*/
 
 @Entity("User")
 export class UserEntity {

@@ -5,5 +5,6 @@ export class UpdateNotificationDto{
     @IsNotEmpty()
     Message:string;
     
-    IdManagement:number
+    IdManagement:number;
+    IndViewed: boolean;
 }

@@ -9,6 +9,8 @@ export class NotificationEntity{
     @Column()
     Message:string;
     @Column()
+    IndViewed: Boolean;
+    @Column()
     Date:Date;
     @ManyToOne(()=>ManagementEntity,management=>management.Notification)
     Management:ManagementEntity;
