@@ -4,9 +4,7 @@ import { from } from 'rxjs';
 
 @Controller('/api/mailValidation')
 export class AuthValidateController {
-    constructor(private readonly authService: AuthValidateService){
-
-    }
+    constructor(private readonly authService: AuthValidateService){}
 
     @Get()
      async sendMail(@Query('email') email: string){

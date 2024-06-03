@@ -50,6 +50,11 @@ export class UserService {
             return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
         }
 
+        const mail = await this.userRepository.findOne({where: {Mail:request.Mail}});
+
+        if(mail){
+          return {msg: "ya se registro un usuario con ese correo",sucess: false, data:null}
+        }
     
       const area = await this.areaRepository.findOne({where:{IdArea:request.IdArea}})
       if(!area){

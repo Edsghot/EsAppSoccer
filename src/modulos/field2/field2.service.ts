@@ -16,7 +16,7 @@ export class Field2Service {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(BookingEntity)
     private readonly bookingEntity: Repository<BookingEntity>
-  ) {}
+  ) { }
 
   async CreateField2(request: CreateField2Dto) {
     try {
@@ -31,19 +31,23 @@ export class Field2Service {
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
       newF.ListPlayer = request.ListPlayer;
-      const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay,user.Area.NameArea,user.Shift);
-
-      if(contadorDia > 0){
-        return {msg: "El area de "+user.Area.NameArea.toUpperCase()+" ya se registro para este dia", success: false}
-      }
       newF.DateDay = request.DateDay;
 
-      const DateWeekend = request.StartWeekend+"-"+request.EndWeekend;
-      const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend,user.IdUser);
+      if (user.Rol != 4) {
 
-      
-      if(contadorSemana > 2){
-        return {msg: "El area de "+user.Area.NameArea.toUpperCase()+" ya supero el limite de registro de esta semana", success: false}
+        const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay, user.Area.NameArea, user.Shift);
+
+        if (contadorDia > 0) {
+          return { msg: "El area de " + user.Area.NameArea.toUpperCase() + " ya se registro para este dia", success: false }
+        }
+
+        const DateWeekend = request.StartWeekend + "-" + request.EndWeekend;
+        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, user.IdUser);
+
+
+        if (contadorSemana > 2) {
+          return { msg: "El area de " + user.Area.NameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
+        }
       }
 
       const field = await this.fieldRepository.create(newF);
@@ -139,7 +143,7 @@ export class Field2Service {
     }
   }
 
-  async getFieldCountByDateAndArea(dateDay: string, area: string,turno:string): Promise<number> {
+  async getFieldCountByDateAndArea(dateDay: string, area: string, turno: string): Promise<number> {
     try {
       const data = await this.fieldRepository.query(
         `CALL GetFieldCountByDateAndArea('${dateDay}', '${area}', '${turno}')`,
@@ -151,11 +155,11 @@ export class Field2Service {
     }
   }
 
-async GetFieldByDateWeekend(DateWeekend: string,idUser:number): Promise<number> {
-  try {
-    
-    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdUser:idUser}});
-    if(!validate){
+  async GetFieldByDateWeekend(DateWeekend: string, idUser: number): Promise<number> {
+    try {
+
+      const validate = await this.bookingEntity.findOne({ where: { DateWeekend: DateWeekend, IdUser: idUser } });
+      if (!validate) {
         var newBooking = new BookingEntity();
         newBooking.DateWeekend = DateWeekend
         newBooking.Quantity = 1;
@@ -164,16 +168,16 @@ async GetFieldByDateWeekend(DateWeekend: string,idUser:number): Promise<number> 
         const booking = await this.bookingEntity.create(newBooking);
         await this.bookingEntity.save(booking);
         return 1;
-    }else{
-       validate.Quantity = validate.Quantity+1;
-       await this.bookingEntity.save(validate);
-       return validate.Quantity;
+      } else {
+        validate.Quantity = validate.Quantity + 1;
+        await this.bookingEntity.save(validate);
+        return validate.Quantity;
+      }
+    } catch (error) {
+      return 5;
     }
-  } catch (error) {
-    return 5;
   }
-}
 
-  
+
 
 }
