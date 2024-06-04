@@ -10,7 +10,6 @@ export class BookingEntity{
     DateWeekend: string;
     @Column()
     Quantity: number;
-    
     @Column()
-    IdUser: number;
+    IdArea: number;
 }

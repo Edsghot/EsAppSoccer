@@ -39,7 +39,7 @@ export class Field2Service {
       newF.DateDay = request.DateDay;
 
       const DateWeekend = request.StartWeekend+"-"+request.EndWeekend;
-      const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend,user.IdUser);
+      const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend,user.Area.IdArea);
 
       
       if(contadorSemana > 2){
@@ -151,15 +151,15 @@ export class Field2Service {
     }
   }
 
-async GetFieldByDateWeekend(DateWeekend: string,idUser:number): Promise<number> {
+async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> {
   try {
     
-    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdUser:idUser}});
+    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdArea:idArea}});
     if(!validate){
         var newBooking = new BookingEntity();
         newBooking.DateWeekend = DateWeekend
         newBooking.Quantity = 1;
-        newBooking.IdUser = idUser;
+        newBooking.IdArea = idArea;
 
         const booking = await this.bookingEntity.create(newBooking);
         await this.bookingEntity.save(booking);
