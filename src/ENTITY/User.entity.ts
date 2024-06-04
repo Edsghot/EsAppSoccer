@@ -52,7 +52,10 @@ export class UserEntity {
     Mail: string;
 
     @Column()
-    Rol: number;   
+    Rol: number;
+    
+    @Column()
+    Date:Date;
 
     @Column()
     IndActive:Boolean;

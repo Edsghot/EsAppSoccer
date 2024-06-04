@@ -6,6 +6,11 @@ import { UserEntity } from 'src/ENTITY/User.entity';
 import { Repository } from 'typeorm';
 import { ValidateService } from '../Validate/validate.service';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
+import { ValidateEmailDto } from 'src/DTO/ValidateEmail/validateEmail.dto';
+import { RecoverPasswordDto } from 'src/DTO/User/recoverPassword.dto';
+import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
+import * as bcrypt from 'bcrypt';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 
 @Injectable()
 export class UserService {
@@ -16,6 +21,8 @@ export class UserService {
     @InjectRepository(AreaEntity)
     private readonly areaRepository: Repository<AreaEntity>,
     private validateService: ValidateService,
+    @InjectRepository(ValidateEmailSmsEntity)
+    private readonly validateRepository:Repository<ValidateEmailSmsEntity>
   ) {
     this.code = 0;
   }
@@ -50,6 +57,11 @@ export class UserService {
             return {msg: "ya se registro un usuario con ese Dni",success: false, data:null}
         }
 
+        const mail = await this.userRepository.findOne({where: {Mail:request.Mail}});
+
+        if(mail){
+          return {msg: "ya se registro un usuario con ese correo",sucess: false, data:null}
+        }
     
       const area = await this.areaRepository.findOne({where:{IdArea:request.IdArea}})
       if(!area){
@@ -71,6 +83,7 @@ export class UserService {
         Shift: request.Shift,
         Mail: request.Mail,
         Rol: request.Rol,
+        Date:new Date(),
         IndActive: true
       });
 
@@ -205,6 +218,80 @@ export class UserService {
       return { data: userRes, msg: 'Success', success: true };
     } catch (error) {
       return { msg: 'Login failed', detailMsg: error, success: false };
+    }
+  }
+
+  async validateCode(data: ValidateEmailDto) {
+    const { Email, Code } = data;
+
+    var existing = await this.validateRepository.findOne({
+      where: { Email },
+    });
+
+    if (existing === null) {
+      return { msg: 'Error en validar el codigo', value: false };
+    }
+
+    if (existing.Code === Code) {
+      return { msg: 'Esta correcto', value: true };
+    }
+
+    return { msg: 'Error al validar código', value: false };
+  }
+
+  async recoverPassword(update: RecoverPasswordDto) {
+    var n = await this.userRepository.findOne({
+      where: { Mail: update.Email },
+    });
+
+    if (n === null) {
+      return {
+        msg: 'No se encontro el usuario',
+        value: false,
+      };
+    }
+
+    if (!update.Password) {
+      return {
+        msg: 'Su nueva contraseña no tiene caracteres',
+        value: false,
+      };
+    }
+
+    try {
+      const hashPassword = await bcrypt.hash(update.Password, 10);
+
+      n.Password = hashPassword;
+
+      await this.userRepository.save(n);
+
+      return {
+        msg: 'se actualizo correctamente',
+      };
+    } catch (e) {
+      return {
+        msg: 'Error al recuperar la contraseña',
+      };
+    }
+  }
+
+  async GetUserByDateRange(request: WeeklyDto) {
+    try {
+      const data = await this.userRepository.query(
+        `CALL getUserByDateRange('${request.StartDate}', '${request.EndDate}')`,
+      );
+      return {
+        msg: 'Lista de reservas completa',
+        data: data[0],
+        success: true,
+      };
+    } catch (error) {
+      console.error('Failed to fetch all user:', error);
+      return {
+        msg: 'Failed to fetch all user',
+        detailMsg: error,
+        success: false,
+      };
     }
   }
 }

@@ -38,4 +38,9 @@ export class Field2Controller {
 
         return await this.fieldsService.GetFieldByDateWeekend(Date,2);
     }
+
+    /*@Get("/GetField2ByDateRange")
+    async GetField2ByDateRange(@Query() request: WeeklyDto) {
+      return await this.fieldsService.GetField2ByDateRange(request);
+    }*/
 }

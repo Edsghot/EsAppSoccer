@@ -36,4 +36,6 @@ export class ReportController {
     async updateReport(@Param('id') id: number, @Body() updateReportDto: UpdateReportDto) {
         return await this.reportService.updateReport(id, updateReportDto);
     }
+
+    
 }
