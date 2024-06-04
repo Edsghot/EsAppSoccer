@@ -159,7 +159,8 @@ export class UserService {
 
   async getAllUsers() {
     try {
-      const users = await this.userRepository.find();
+      const users = await this.userRepository.query("select User.*, Area.NameArea from User inner join Area on User.areaIdArea = Area.IdArea;");
+    
       return { data: users, msg: 'Success', success: true };
     } catch (error) {
       console.error('Failed to get users:', error);

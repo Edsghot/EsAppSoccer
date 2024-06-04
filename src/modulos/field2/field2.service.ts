@@ -31,7 +31,7 @@ export class Field2Service {
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
       newF.ListPlayer = request.ListPlayer;
-      newF.DateDay = request.DateDay;
+      newF.DateDay = new Date(request.DateDay);
 
       if (user.Rol != 4) {
 
