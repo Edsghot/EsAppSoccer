@@ -155,11 +155,7 @@ export class Field2Service {
     }
   }
 
-  async GetFieldByDateWeekend(DateWeekend: string, idUser: number): Promise<number> {
-    try {
 
-      const validate = await this.bookingEntity.findOne({ where: { DateWeekend: DateWeekend, IdUser: idUser } });
-      if (!validate) {
 async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> {
   try {
     
