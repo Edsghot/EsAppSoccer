@@ -26,10 +26,11 @@ export class Field1Service {
       }
 
 
+
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
-      newF.DateDay = request.DateDay;
+      newF.DateDay = new Date(request.DateDay);
       newF.ListPlayer = request.ListPlayer;
 
       const field = await this.fieldRepository.create(newF);
