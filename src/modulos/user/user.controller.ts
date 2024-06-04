@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateUserDto } from 'src/DTO/User/createUserDto.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
 import { UserService } from './user.service';
 import { LoginDto } from 'src/DTO/User/LoginDto.dto';
 import { validate } from 'class-validator';
+import { ValidateEmailDto } from 'src/DTO/ValidateEmail/validateEmail.dto';
+import { RecoverPasswordDto } from 'src/DTO/User/recoverPassword.dto';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 
 @Controller('api/user')
 export class UserController {
@@ -58,5 +61,21 @@ export class UserController {
     
         // Si la validación es exitosa, procede con la lógica de inicio de sesión
         return await this.userService.login(loginDto.UserRequest, loginDto.Password);
+    }
+
+    @Post('validate')
+    async validateCode(@Body() data: ValidateEmailDto) {
+        var res = await this.userService.validateCode(data);
+        return res;
+    }
+
+    @Put('recoverPassword')
+    async recoverPassword(@Body() update: RecoverPasswordDto) {
+        return await this.userService.recoverPassword(update);
+    }
+
+    @Get("/GetUserByDateRange")
+    async GetUserByDateRange(@Query() request: WeeklyDto) {
+      return await this.userService.GetUserByDateRange(request);
     }
 }

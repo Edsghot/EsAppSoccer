@@ -179,5 +179,23 @@ export class Field2Service {
   }
 
 
+  /*async GetField2ByDateRange(request: WeeklyDto) {
+    try {
+      const data = await this.fieldRepository.query(
+        `CALL getField2ByDateRange('${request.StartDate}', '${request.EndDate}')`,
+      );
+      return {
+        msg: 'Lista de reservas completa',
+        data: data[0],
+        success: true,
+      };
+    } catch (error) {
+      console.error('Failed to fetch all fields:', error);
+      return {
+        msg: 'Failed to fetch all fields',
+        detailMsg: error,
+        success: false,
+      };
+    }*/
+  }
 
-}
