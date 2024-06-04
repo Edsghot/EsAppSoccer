@@ -11,6 +11,7 @@ import { RecoverPasswordDto } from 'src/DTO/User/recoverPassword.dto';
 import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
 import * as bcrypt from 'bcrypt';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
+import { AuthValidateService } from '../auth-validate/auth-validate.service';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,7 @@ export class UserService {
     @InjectRepository(AreaEntity)
     private readonly areaRepository: Repository<AreaEntity>,
     private validateService: ValidateService,
+    private mailValidateService: AuthValidateService,
     @InjectRepository(ValidateEmailSmsEntity)
     private readonly validateRepository:Repository<ValidateEmailSmsEntity>
   ) {
