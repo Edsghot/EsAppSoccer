@@ -35,7 +35,7 @@ export class AuthValidateService {
          await this.mailerService.sendMail(
             {
                 to: email,
-                from: 'dizzgo.app@gmail.com',
+                from: 'edsghot@gmail.com',
                 subject: `Tu código de verificación es: ${code}`,
                 text: 'welcome coliseo Bambas',
                 html: ` <div style=" font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; background-color: #f9f9f9; text-align: center; font-size: 16px; height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; " > <div> <div style=" display: flex; justify-content: center; align-items: center; flex-direction: row; " > <img src="https://thumbs.dreamstime.com/b/fast-initial-letter-logo-vector-wing-da-todz-143202718.jpg" alt="Dizzgo Logo" style="width: 50px; height: auto; border-radius: 50%" /> <p style=" font-family: Verdana, Geneva, Tahoma, sans-serif; color: #40a5e7; font-size: 25px; font-weight: bold; margin: 10px 0; " > Dizzgo </p> </div> <div style=" width: 40%; background-color: #161b21; color: #a3aabf; padding: 40px; margin: 20px auto; text-align: left; border-radius: 6px; " > <div> <p style="color: #ffffff; font-weight: bold; font-size: 20px"> Hey ${nameEmail} </p> <p style="margin-top: 8px;;margin-bottom: 8px;"> ¡Gracias por registrarte para obtener una cuenta en la aplicacion Coliseo bambas! Antes de comenzar, solo necesitamos confirmar que eres tú. Copia el siguiente código e introdúce en la aplicación para verificar su dirección de correo electrónico: </p> <div style=" display: inline-block; border-radius: 8px; background-color: #40a5e7; color: #fff; padding: 10px; font-size: 20px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; " > <p style="margin: 0;">${code}</p> </div> </div> <hr /> <div style="margin-top: 30px"> <p style="margin-top: 8px;;margin-bottom: 8px;"> ¿Necesitas ayuda? <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Contacta con nuestro equipo de soporte técnico</a >. ¿Quieres darnos tu opinión? ¡Dinos lo que piensas en nuestra <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >página de opiniones</a >. </p> </div> </div> <div style=" font-size: 13px; color: #a1b0ba; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; " > <p> Enviado por Dizgo <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Consulta nuestro blog</a > De ControlZ , Perú 2024 </p> </div> </div> </div>`,
@@ -44,6 +44,26 @@ export class AuthValidateService {
         
         return res.resultOK("Se envio correctamente");
     }
+
+    async sendMailUser(email: string,username:string,password: string){
+        var res = new ResMessage();
+
+        var nameEmail = this.obtenerNombreEmail(email);
+
+         await this.mailerService.sendMail(
+            {
+                to: email,
+                from: 'edsghot@gmail.com',
+                subject: `Credenciales de accesos al app Coliseo Bambas `,
+                text: 'welcome coliseo Bambas',
+                html: ` <div style=" font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; background-color: #f9f9f9; text-align: center; font-size: 16px; height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; " > <div> <div style=" display: flex; justify-content: center; align-items: center; flex-direction: row; " > <img src="https://thumbs.dreamstime.com/b/fast-initial-letter-logo-vector-wing-da-todz-143202718.jpg" alt="Dizzgo Logo" style="width: 50px; height: auto; border-radius: 50%" /> <p style=" font-family: Verdana, Geneva, Tahoma, sans-serif; color: #40a5e7; font-size: 25px; font-weight: bold; margin: 10px 0; " > Dizzgo </p> </div> <div style=" width: 40%; background-color: #161b21; color: #a3aabf; padding: 40px; margin: 20px auto; text-align: left; border-radius: 6px; " > <div> <p style="color: #ffffff; font-weight: bold; font-size: 20px"> Hey ${nameEmail} </p> <p style="margin-top: 8px;;margin-bottom: 8px;"> Gracias por registrarte!! para iniciar sesion use la siguiente credencial </p> <div style=" display: inline-block; border-radius: 8px; background-color: #40a5e7; color: #fff; padding: 10px; font-size: 20px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; " > <p style="margin: 0;">Usuario: ${username}<br>password: ${password}</p> </div> </div> <hr /> <div style="margin-top: 30px"> <p style="margin-top: 8px;;margin-bottom: 8px;"> ¿Necesitas ayuda? <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Contacta con nuestro equipo de soporte técnico</a >. ¿Quieres darnos tu opinión? ¡Dinos lo que piensas en nuestra <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >página de opiniones</a >. </p> </div> </div> <div style=" font-size: 13px; color: #a1b0ba; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; " > <p> Enviado por ColiseoBambas<a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Consulta nuestro blog</a > De ControlZ , Perú 2024 </p> </div> </div> </div>`,
+            }
+        )
+        
+        return res.resultOK("Se envio correctamente");
+    }
+
+
 
     async sendMailRecoverPassword(email: string){
         var res = new ResMessage();
@@ -69,9 +89,9 @@ export class AuthValidateService {
          await this.mailerService.sendMail(
             {
                 to: email,
-                from: 'dizzgo.app@gmail.com',
+                from: 'edsghot@gmail.com',
                 subject: `Tu código de recuperación es: ${code}`,
-                text: 'Recuperacion de contraseña Dizzgo',
+                text: 'Recuperacion de contraseña Bambas',
                 html: ` <div style=" font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; background-color: #f9f9f9; text-align: center; font-size: 16px; height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; " > <div> <div style=" display: flex; justify-content: center; align-items: center; flex-direction: row; " > <img src="https://thumbs.dreamstime.com/b/fast-initial-letter-logo-vector-wing-da-todz-143202718.jpg" alt="Dizzgo Logo" style="width: 50px; height: auto; border-radius: 50%" /> <p style=" font-family: Verdana, Geneva, Tahoma, sans-serif; color: #40a5e7; font-size: 25px; font-weight: bold; margin: 10px 0; " > Dizzgo </p> </div> <div style=" width: 40%; background-color: #161b21; color: #a3aabf; padding: 40px; margin: 20px auto; text-align: left; border-radius: 6px; " > <div> <p style="color: #ffffff; font-weight: bold; font-size: 20px"> Hey ${nameEmail} </p> <p style="margin-top: 8px;;margin-bottom: 8px;"> Le proporcionamos el código de verificación para recuperar su contraseña. Por favor, utilícelo en la aplicación correspondiente para verificar su dirección de correo electrónico: </p> <div style=" display: inline-block; border-radius: 8px; background-color: #40a5e7; color: #fff; padding: 10px; font-size: 20px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; " > <p style="margin: 0;">${code}</p> </div> </div> <hr /> <div style="margin-top: 30px"> <p style="margin-top: 8px;;margin-bottom: 8px;"> ¿Necesitas ayuda? <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Contacta con nuestro equipo de soporte técnico</a >. ¿Quieres darnos tu opinión? ¡Dinos lo que piensas en nuestra <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >página de opiniones</a >. </p> </div> </div> <div style=" font-size: 13px; color: #a1b0ba; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; " > <p> Enviado por Dizgo <a style="color: #40a5e7" href="https://jheysonjhairpro.ccontrolz.com/" target="_blank" >Consulta nuestro blog</a > De ControlZ , Perú 2024 </p> </div> </div> </div>`,
             }
         )

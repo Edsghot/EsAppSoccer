@@ -11,6 +11,7 @@ import { RecoverPasswordDto } from 'src/DTO/User/recoverPassword.dto';
 import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
 import * as bcrypt from 'bcrypt';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
+import { AuthValidateService } from '../auth-validate/auth-validate.service';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,7 @@ export class UserService {
     @InjectRepository(AreaEntity)
     private readonly areaRepository: Repository<AreaEntity>,
     private validateService: ValidateService,
+    private mailValidateService: AuthValidateService,
     @InjectRepository(ValidateEmailSmsEntity)
     private readonly validateRepository:Repository<ValidateEmailSmsEntity>
   ) {
@@ -90,6 +92,8 @@ export class UserService {
       // Guardar la nueva entidad de usuario en la base de datos
       await this.userRepository.save(newUser);
 
+      await this.mailValidateService.sendMailUser(request.Mail,request.Dni,newUser.Password);
+
       return { msg: 'User inserted successfully', success: true };
     } catch (error) {
       console.error('Failed to insert user:', error);
@@ -116,6 +120,7 @@ export class UserService {
       user.Rol = updateUserDto.Rol;
 
       await this.userRepository.save(user);
+      
 
       return { msg: 'User updated successfully', success: true };
     } catch (error) {
@@ -216,7 +221,13 @@ export class UserService {
         return {data: userRes, msg: 'Este usuario se encuentra bloqueado', success: false }
       }
 
-      return { data: userRes, msg: 'Success', success: true };
+      var user = await this.userRepository.query(`
+      SELECT User.*, Area.NameArea
+      FROM User
+      INNER JOIN Area ON User.areaIdArea = Area.IdArea
+      WHERE User.IdUser = ?
+    `, [userRes.IdUser]);
+      return { data:user[0], msg: 'Success', success: true };
     } catch (error) {
       return { msg: 'Login failed', detailMsg: error, success: false };
     }

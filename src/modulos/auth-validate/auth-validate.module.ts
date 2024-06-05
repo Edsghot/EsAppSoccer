@@ -13,7 +13,7 @@ import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
           service: 'gmail',
           auth:{
             user: 'edsghot@gmail.com',
-            pass: 'hvzdncbncrwihakk'
+            pass: 'rhcannhyrsmilqix'
           }
         }
       }
