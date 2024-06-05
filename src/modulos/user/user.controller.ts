@@ -75,7 +75,7 @@ export class UserController {
     }
 
     @Get("/GetUserByDateRange")
-    async GetUserByDateRange(@Query() request: WeeklyDto) {
+    async GetUserByDateRange(@Body() request: WeeklyDto) {
       return await this.userService.GetUserByDateRange(request);
     }
 }
