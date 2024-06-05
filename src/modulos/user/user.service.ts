@@ -227,7 +227,7 @@ export class UserService {
       INNER JOIN Area ON User.areaIdArea = Area.IdArea
       WHERE User.IdUser = ?
     `, [userRes.IdUser]);
-      return { data:user, msg: 'Success', success: true };
+      return { data:user[0], msg: 'Success', success: true };
     } catch (error) {
       return { msg: 'Login failed', detailMsg: error, success: false };
     }
