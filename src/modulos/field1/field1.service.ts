@@ -30,7 +30,8 @@ export class Field1Service {
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
-      newF.DateDay = new Date(request.DateDay);
+      newF.DateDay = request.DateDay;
+      newF.DateRegister=new Date();
       newF.ListPlayer = request.ListPlayer;
 
       const field = await this.fieldRepository.create(newF);
@@ -126,7 +127,7 @@ export class Field1Service {
     }
   }
 
-  /*async GetField1ByDateRange(request: WeeklyDto) {
+  async GetField1ByDateRange(request: WeeklyDto) {
     try {
       const data = await this.fieldRepository.query(
         `CALL getField1ByDateRange('${request.StartDate}', '${request.EndDate}')`,
@@ -144,5 +145,6 @@ export class Field1Service {
         success: false,
       };
     }
-  }*/
+  }
+
 }

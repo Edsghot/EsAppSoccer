@@ -12,7 +12,9 @@ export class Field2Entity{
     @Column()
     EndTime: string;
     @Column()
-    DateDay: Date;
+    DateDay: string;
+    @Column()
+    DateRegister:Date;
     @Column("text")
     ListPlayer:string;
 }

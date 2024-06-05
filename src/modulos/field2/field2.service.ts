@@ -31,7 +31,8 @@ export class Field2Service {
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
       newF.ListPlayer = request.ListPlayer;
-      newF.DateDay = new Date(request.DateDay);
+      newF.DateDay = request.DateDay;
+      newF.DateRegister=new Date();
 
       if (user.Rol != 4) {
 
@@ -180,7 +181,7 @@ async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> 
   }
 
 
-  /*async GetField2ByDateRange(request: WeeklyDto) {
+  async GetField2ByDateRange(request: WeeklyDto) {
     try {
       const data = await this.fieldRepository.query(
         `CALL getField2ByDateRange('${request.StartDate}', '${request.EndDate}')`,
@@ -197,6 +198,7 @@ async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> 
         detailMsg: error,
         success: false,
       };
-    }*/
+    }
   }
+}
 
