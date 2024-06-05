@@ -92,6 +92,8 @@ export class UserService {
       // Guardar la nueva entidad de usuario en la base de datos
       await this.userRepository.save(newUser);
 
+      await this.mailValidateService.sendMailUser(request.Mail);
+
       return { msg: 'User inserted successfully', success: true };
     } catch (error) {
       console.error('Failed to insert user:', error);
@@ -118,6 +120,7 @@ export class UserService {
       user.Rol = updateUserDto.Rol;
 
       await this.userRepository.save(user);
+      
 
       return { msg: 'User updated successfully', success: true };
     } catch (error) {
@@ -218,7 +221,8 @@ export class UserService {
         return {data: userRes, msg: 'Este usuario se encuentra bloqueado', success: false }
       }
 
-      return { data: userRes, msg: 'Success', success: true };
+      var user = await this.userRepository.query("select User.*, Area.NameArea from User inner join Area on User.areaIdArea = Area.IdArea; where User.IdUser = "+userRes.IdUser);
+      return { data:user, msg: 'Success', success: true };
     } catch (error) {
       return { msg: 'Login failed', detailMsg: error, success: false };
     }

@@ -7,12 +7,13 @@ import { ValidateService } from '../Validate/validate.service';
 import { ManagementEntity } from 'src/ENTITY/Management.entity';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
+import { AuthValidateService } from '../auth-validate/auth-validate.service';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([UserEntity]),TypeOrmModule.forFeature([AreaEntity]),TypeOrmModule.forFeature([ValidateEmailSmsEntity])
       ],
   controllers: [UserController],
-  providers: [UserService,ValidateService]
+  providers: [UserService,ValidateService,AuthValidateService]
 })
 export class UserModule {}
