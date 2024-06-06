@@ -22,9 +22,9 @@ export class NotificationController {
         return await this.notificationService.getNotificationById(id);
     }
 
-    @Get('getManagementById/:id')
-    async getManagementById(@Param('id')id:number){
-        return await this.notificationService.getManagementById(id);
+    @Get('getAreaById/:id')
+    async getAreaById(@Param('id')id:number){
+        return await this.notificationService.getAreabyId(id);
     }
 
     @Delete(':id')

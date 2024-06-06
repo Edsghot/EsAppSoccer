@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateNotificationDto } from 'src/DTO/Notification/CreateNotification.dto';
 import { UpdateNotificationDto } from 'src/DTO/Notification/UpdateNotification.dto';
+import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { ManagementEntity } from 'src/ENTITY/Management.entity';
 import { NotificationEntity } from 'src/ENTITY/Notification.entity';
 import { Repository } from 'typeorm';
@@ -9,19 +10,19 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class NotificationService {
     constructor(@InjectRepository(NotificationEntity) private readonly notificationRepository:Repository<NotificationEntity>,
-                @InjectRepository(ManagementEntity) private readonly managementRepository: Repository<ManagementEntity>){}
+                @InjectRepository(AreaEntity) private readonly areaReporsitory: Repository<AreaEntity>){}
 
     async insertNotification(createNotificationDto:CreateNotificationDto){
         try{
             var newNotification=new NotificationEntity();
             
-            const management=await this.managementRepository.findOne({
-                where:{IdManagement:createNotificationDto.IdManagement}
+            const area=await this.areaReporsitory.findOne({
+                where:{IdArea:createNotificationDto.IdArea}
             })
-            if(!management){
-                return {msg:"No se encontro la gerencia",success:false}
+            if(!area){
+                return {msg:"No se encontro el Area",success:false}
             }
-            newNotification.Management=management;
+            newNotification.Area=area;
             newNotification.Message=createNotificationDto.Message;
             newNotification.IndViewed = false;
             newNotification.Date=new Date();
@@ -59,20 +60,20 @@ export class NotificationService {
         }
     }
 
-    async getManagementById(managementId:number){
+    async getAreabyId(managementId:number){
         try{
 
-            const manag=await this.managementRepository.findOne({where: {IdManagement:managementId}});
-            if(!manag){
-                return {msg:"La gerencia no existe",success:false}
+            const area=await this.areaReporsitory.findOne({where: {IdArea:managementId}});
+            if(!area){
+                return {msg:"La area no existe",success:false}
             }
             const management=await this.notificationRepository.find({
-                where:{Management:manag}
+                where:{Area:area}
             });
             return {data:management,msg:"success",success:true}
         }catch(e){
-            console.error('Failed to get management by Id:', e);
-            return { msg: 'Failed to get management by Id', detailMsg: e, success: false };
+            console.error('Failed to get area by Id:', e);
+            return { msg: 'Failed to get area by Id', detailMsg: e, success: false };
         }
     }
 

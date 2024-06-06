@@ -11,6 +11,5 @@ export class ManagementEntity{
     NameManagement:string;
     @OneToMany(() => AreaEntity, area => area.IdArea)
     Area: AreaEntity[];
-    @OneToMany(() => NotificationEntity, notification => notification.Management)
-    Notification: NotificationEntity[];
+   
 }

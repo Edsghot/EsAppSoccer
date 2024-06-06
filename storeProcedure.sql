@@ -2,7 +2,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllField1()
 BEGIN
-    SELECT f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field1 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
+    SELECT f.IdField1Entity,f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field1 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
 END//
 
 DELIMITER ;
@@ -11,7 +11,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllField2()
 BEGIN
-    SELECT f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field2 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
+    SELECT f.IdField2Entity,f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field2 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
 END//
 
 DELIMITER ;
@@ -49,8 +49,8 @@ CREATE PROCEDURE GetFieldCountByDateAndArea (IN p_DateDay VARCHAR(255), IN p_Are
 BEGIN
     SELECT COUNT(Field2.IdField2Entity) AS contador
     FROM Field2
-    INNER JOIN User ON Field2.userIdUser = User.IdUser
-    WHERE DateDay = p_DateDay AND User.Area = p_Area AND User.Shift = p_turno;
+    INNER JOIN User ON Field2.userIdUser = User.IdUser inner join Area on Area.IdArea = User.areaIdArea
+    WHERE DateDay = p_DateDay AND  Area.NameArea = p_Area AND User.Shift = p_turno;
 END //
 
 DELIMITER ;

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
@@ -15,15 +16,16 @@ export class Field2Service {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(BookingEntity)
-    private readonly bookingEntity: Repository<BookingEntity>
+    private readonly bookingEntity: Repository<BookingEntity>,
+    @InjectRepository(AreaEntity)
+    private readonly areaRepository: Repository<AreaEntity>
   ) { }
 
   async CreateField2(request: CreateField2Dto) {
     try {
       let newF = new Field2Entity();
-      const user = await this.userRepository.findOne({
-        where: { IdUser: request.IdUser },
-      });
+      const user = (await this.userRepository.query("select * from User Where IdUser = "+request.IdUser))[0];
+
       if (!user) {
         return { msg: 'no se encontro el usuario', success: false };
       }
@@ -36,10 +38,15 @@ export class Field2Service {
 
       if (user.Rol != 4) {
 
-        const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay, user.Area.NameArea, user.Shift);
+        var nameArea = (await this.areaRepository.findOne({where:{IdArea:user.areaIdArea}})).NameArea
+        if(!nameArea){
+           return { msg: "error con el area", success: false }
+        }
+
+        const contadorDia = await this.getFieldCountByDateAndArea(request.DateDay, nameArea, user.Shift);
 
         if (contadorDia > 0) {
-          return { msg: "El area de " + user.Area.NameArea.toUpperCase() + " ya se registro para este dia", success: false }
+          return { msg: "El area de " + nameArea.toUpperCase() + " ya se registro para este dia", success: false }
         }
 
         const DateWeekend = request.StartWeekend + "-" + request.EndWeekend;
@@ -47,8 +54,14 @@ export class Field2Service {
 
 
         if (contadorSemana > 2) {
-          return { msg: "El area de " + user.Area.NameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
+          return { msg: "El area de " + nameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
         }
+
+        const field = await this.fieldRepository.create(newF);
+
+      await this.fieldRepository.save(field);
+
+      return { msg: 'se inserto correctamente', success: true };
       }
 
       const field = await this.fieldRepository.create(newF);
@@ -58,7 +71,7 @@ export class Field2Service {
       return { msg: 'se inserto correctamente', success: true };
     } catch (error) {
       console.error('Failed to insert user:', error);
-      return { msg: 'Error al insertar', detailMsg: error, success: false };
+      return { msg: 'Error al insertar ' +error, detailMsg: error, success: false };
     }
   }
   async getAllFields() {
@@ -94,8 +107,10 @@ export class Field2Service {
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
+
+      
       await this.fieldRepository.remove(fieldToDelete);
-      return { msg: 'Field deleted successfully', success: true };
+      return {IdArea: fieldToDelete.User.Area.IdArea, msg: 'Field deleted successfully', success: true };
     } catch (error) {
       console.error('Failed to delete field:', error);
       return {

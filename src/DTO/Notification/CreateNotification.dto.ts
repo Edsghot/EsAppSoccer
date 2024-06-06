@@ -6,5 +6,5 @@ export class CreateNotificationDto{
     Message:string;
     @IsNumber()
     @IsNotEmpty()
-    IdManagement:number
+    IdArea:number
 }
