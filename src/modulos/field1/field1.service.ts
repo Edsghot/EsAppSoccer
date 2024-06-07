@@ -147,21 +147,26 @@ export class Field1Service {
     }
   }
 
-  async GetField1ByDateRange(request: WeeklyDto) {
+  async getField1ByDateRange(request: WeeklyDto) {
     try {
-      const data = await this.fieldRepository.query(
-        `CALL getField1ByDateRange('${request.StartDate}', '${request.EndDate}')`,
-      );
+      const data = await this.fieldRepository
+        .createQueryBuilder('field1')
+        .where('field.dateDay BETWEEN :startDate AND :endDate', {
+          startDate: request.StartDate,
+          endDate: request.EndDate,
+        })
+        .getMany();
+
       return {
         msg: 'Lista de reservas completa',
-        data: data[0],
+        data: data,
         success: true,
       };
     } catch (error) {
       console.error('Failed to fetch all fields:', error);
       return {
         msg: 'Failed to fetch all fields',
-        detailMsg: error,
+        detailMsg: error.message,
         success: false,
       };
     }
