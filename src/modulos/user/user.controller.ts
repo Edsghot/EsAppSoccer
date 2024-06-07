@@ -74,8 +74,8 @@ export class UserController {
         return await this.userService.recoverPassword(update);
     }
 
-    @Get("/GetUserByDateRange")
+    @Post("/GetUserByDateRange")
     async GetUserByDateRange(@Body() request: WeeklyDto) {
-      return await this.userService.GetUserByDateRange(request);
+      return await this.userService.getUserByDateRange(request);
     }
 }

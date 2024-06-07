@@ -16,6 +16,11 @@ export class Field1Controller {
     async getAllFields() {
       return await this.fieldsService.getAllFields();
     }
+
+    @Get('/getById/:id')
+    async getById(@Param('id') id: number) {
+      return await this.fieldsService.getById(id);
+    }
   
     @Delete(':id')
     async deleteField(@Param('id') id: number) {
@@ -32,10 +37,9 @@ export class Field1Controller {
       return await this.fieldsService.getAllWeekly(request);
     }
 
-    @Get("/GetField1ByDateRange")
+    @Post("/GetField1ByDateRange")
     async GetField1ByDateRange(@Body() request: WeeklyDto) {
-      return await this.fieldsService.GetField1ByDateRange(request);
+      return await this.fieldsService.getField1ByDateRange(request);
     }
-
 
 }
