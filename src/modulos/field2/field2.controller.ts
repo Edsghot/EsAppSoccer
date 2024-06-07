@@ -46,6 +46,6 @@ export class Field2Controller {
 
     @Post("/GetField2ByDateRange")
     async GetField2ByDateRange(@Body() request: WeeklyDto) {
-      return await this.fieldsService.GetField2ByDateRange(request);
+      return await this.fieldsService.getField2ByDateRange(request);
     }
 }

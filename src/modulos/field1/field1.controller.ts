@@ -42,5 +42,4 @@ export class Field1Controller {
       return await this.fieldsService.getField1ByDateRange(request);
     }
 
-
 }

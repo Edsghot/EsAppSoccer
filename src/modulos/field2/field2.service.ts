@@ -213,24 +213,31 @@ async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> 
   }
 
 
-  async GetField2ByDateRange(request: WeeklyDto) {
+  async getField2ByDateRange(request: WeeklyDto) {
     try {
-      const data = await this.fieldRepository.query(
-        `CALL getField2ByDateRange('${request.StartDate}', '${request.EndDate}')`,
-      );
+      const data = await this.fieldRepository
+        .createQueryBuilder('field2')
+        .where('field2.dateDay BETWEEN :startDate AND :endDate', {
+          startDate: request.StartDate,
+          endDate: request.EndDate,
+        })
+        .getMany();
+
       return {
         msg: 'Lista de reservas completa',
-        data: data[0],
+        data: data,
         success: true,
       };
     } catch (error) {
       console.error('Failed to fetch all fields:', error);
       return {
         msg: 'Failed to fetch all fields',
-        detailMsg: error,
+        detailMsg: error.message,
         success: false,
       };
     }
   }
+
+  
 }
 

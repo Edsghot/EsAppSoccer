@@ -151,7 +151,7 @@ export class Field1Service {
     try {
       const data = await this.fieldRepository
         .createQueryBuilder('field1')
-        .where('field.dateDay BETWEEN :startDate AND :endDate', {
+        .where('field1.dateDay BETWEEN :startDate AND :endDate', {
           startDate: request.StartDate,
           endDate: request.EndDate,
         })
