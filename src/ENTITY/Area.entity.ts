@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { ManagementEntity } from "./Management.entity";
 import { ReportEntity } from "./Report.entity";
 import { UserEntity } from "./User.entity";
+import { NotificationEntity } from "./Notification.entity";
 
 @Entity("Area")
 export class AreaEntity{
@@ -17,4 +18,7 @@ export class AreaEntity{
     Report: ReportEntity[];
     @OneToMany(()=>UserEntity,m=>m.Area)
     User:UserEntity[];
+
+    @OneToMany(() => NotificationEntity, notification => notification.Area)
+    Notification: NotificationEntity[];
 }

@@ -37,8 +37,10 @@ export class Field1Controller {
       return await this.fieldsService.getAllWeekly(request);
     }
 
-    /*@Get("/GetField1ByDateRange")
-    async GetField1ByDateRange(@Query() request: WeeklyDto) {
+    @Get("/GetField1ByDateRange")
+    async GetField1ByDateRange(@Body() request: WeeklyDto) {
       return await this.fieldsService.GetField1ByDateRange(request);
-    }*/
+    }
+
+
 }

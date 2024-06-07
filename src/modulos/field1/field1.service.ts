@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { count } from 'console';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { Field1Entity } from 'src/ENTITY/Field1.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
 import { Repository } from 'typeorm';
@@ -14,7 +15,9 @@ export class Field1Service {
     private readonly fieldRepository: Repository<Field1Entity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) { }
+    @InjectRepository(AreaEntity)
+    private readonly areaRepository: Repository<AreaEntity>
+  ) {}
   async CreateField1(request: CreateField2Dto) {
     try {
       let newF = new Field1Entity();
@@ -26,10 +29,12 @@ export class Field1Service {
       }
 
 
+
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
       newF.DateDay = request.DateDay;
+      newF.DateRegister=new Date();
       newF.ListPlayer = request.ListPlayer;
 
       const field = await this.fieldRepository.create(newF);
@@ -87,8 +92,13 @@ export class Field1Service {
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
+      var user = fieldToDelete.User;
+
+      var area = await this.areaRepository.findOne({where:{User:user}});
+
       await this.fieldRepository.remove(fieldToDelete);
-      return { msg: 'Field deleted successfully', success: true };
+      return {IdArea: area.IdArea, msg: 'Field deleted successfully', success: true };
+
     } catch (error) {
       console.error('Failed to delete field:', error);
       return {
@@ -137,7 +147,7 @@ export class Field1Service {
     }
   }
 
-  /*async GetField1ByDateRange(request: WeeklyDto) {
+  async GetField1ByDateRange(request: WeeklyDto) {
     try {
       const data = await this.fieldRepository.query(
         `CALL getField1ByDateRange('${request.StartDate}', '${request.EndDate}')`,
@@ -155,5 +165,6 @@ export class Field1Service {
         success: false,
       };
     }
-  }*/
+  }
+
 }

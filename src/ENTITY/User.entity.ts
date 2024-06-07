@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { Field1Entity } from './Field1.entity';
 import { Field2Entity } from './Field2.entity';
 import { BookingEntity } from './Booking.entity';
@@ -39,7 +39,7 @@ export class UserEntity {
     @Column()
     EmployeeCode: string;
 
-    @ManyToOne(() => AreaEntity, m => m.IdArea)
+    @ManyToOne(() => AreaEntity, m => m.IdArea,{ cascade: true })
     Area: AreaEntity;
 
     @Column()
