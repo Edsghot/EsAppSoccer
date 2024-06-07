@@ -113,7 +113,6 @@ export class Field2Service {
       var user = fieldToDelete.User;
 
       var area = await this.areaRepository.findOne({where:{User:user}});
-
       await this.fieldRepository.remove(fieldToDelete);
       return {IdArea: area.IdArea, msg: 'Field deleted successfully', success: true };
 
