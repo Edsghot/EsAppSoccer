@@ -123,6 +123,18 @@ export class Field2Service {
     }
   }
 
+  async getById(id: number) {
+    try {
+      const field = await this.fieldRepository.findOne({
+        where: { IdField2Entity: id },
+      });
+      return { data: field, msg: 'Success', success: true }
+    } catch (e) {
+      console.error('Failed to get area by ID:', e);
+      return { msg: 'Failed to get area', detailMsg: e, success: false };
+    }
+  }
+
   async getAllWeekly(request: WeeklyDto) {
     try {
       const data = await this.fieldRepository.query(
@@ -155,11 +167,6 @@ export class Field2Service {
     }
   }
 
-  async GetFieldByDateWeekend(DateWeekend: string, idUser: number): Promise<number> {
-    try {
-
-      const validate = await this.bookingEntity.findOne({ where: { DateWeekend: DateWeekend, IdUser: idUser } });
-      if (!validate) {
 async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> {
   try {
     

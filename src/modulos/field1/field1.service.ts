@@ -14,7 +14,7 @@ export class Field1Service {
     private readonly fieldRepository: Repository<Field1Entity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  ) { }
   async CreateField1(request: CreateField2Dto) {
     try {
       let newF = new Field1Entity();
@@ -49,6 +49,18 @@ export class Field1Service {
     } catch (error) {
       console.error('Failed to get fields:', error);
       return { msg: 'Failed to get fields', detailMsg: error, success: false };
+    }
+  }
+
+  async getById(id: number) {
+    try {
+      const field = await this.fieldRepository.findOne({
+        where: { IdField1Entity: id },
+      });
+      return { data: field, msg: 'Success', success: true }
+    } catch (e) {
+      console.error('Failed to get area by ID:', e);
+      return { msg: 'Failed to get area', detailMsg: e, success: false };
     }
   }
 
