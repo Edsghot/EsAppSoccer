@@ -103,19 +103,25 @@ export class Field2Service {
     try {
       const fieldToDelete = await this.fieldRepository.findOne({
         where: { IdField2Entity: id },
+        relations: ['User'],
       });
+      
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
 
-      
+      var user = fieldToDelete.User;
+
+      var area = await this.areaRepository.findOne({where:{User:user}});
+
       await this.fieldRepository.remove(fieldToDelete);
-      return {IdArea: fieldToDelete.User.Area.IdArea, msg: 'Field deleted successfully', success: true };
+      return {IdArea: area.IdArea, msg: 'Field deleted successfully', success: true };
+
     } catch (error) {
       console.error('Failed to delete field:', error);
       return {
         msg: 'Failed to delete field',
-        detailMsg: error,
+        detailMsg: error.message,
         success: false,
       };
     }
