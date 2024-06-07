@@ -287,21 +287,26 @@ export class UserService {
     }
   }
 
-  async GetUserByDateRange(request: WeeklyDto) {
+  async getUserByDateRange(request: WeeklyDto) {
     try {
-      const data = await this.userRepository.query(
-        `CALL getUserByDateRange('${request.StartDate}', '${request.EndDate}')`,
-      );
+      const data = await this.userRepository
+        .createQueryBuilder('user')
+        .where('user.date BETWEEN :startDate AND :endDate', {
+          startDate: request.StartDate,
+          endDate: request.EndDate,
+        })
+        .getMany();
+  
       return {
         msg: 'Lista de reservas completa',
-        data: data[0],
+        data: data,
         success: true,
       };
     } catch (error) {
-      console.error('Failed to fetch all user:', error);
+      console.error('Failed to fetch all users:', error);
       return {
-        msg: 'Failed to fetch all user',
-        detailMsg: error,
+        msg: 'Failed to fetch all users',
+        detailMsg: error.message,
         success: false,
       };
     }
