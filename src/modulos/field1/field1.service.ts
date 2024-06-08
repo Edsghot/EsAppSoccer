@@ -59,9 +59,8 @@ export class Field1Service {
 
   async getById(id: number) {
     try {
-      const field = await this.fieldRepository.findOne({
-        where: { IdField1Entity: id },
-      });
+      const field = await this.fieldRepository.query("select * from Field1 inner join User on Field1.userIdUser = User.IdUser inner join Area on User.areaIdArea = Area.IdArea INNER join Management on Area.managementIdManagement = Management.IdManagement where Field1.IdField1Entity = "+id);
+
       return { data: field, msg: 'Success', success: true }
     } catch (e) {
       console.error('Failed to get area by ID:', e);
