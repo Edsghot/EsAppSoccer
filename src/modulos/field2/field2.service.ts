@@ -117,7 +117,12 @@ export class Field2Service {
 
       var bookin = await this.bookingEntity.findOne({where:{IdField:fieldToDelete.IdField2Entity}});
 
-      await this.bookingEntity.remove(bookin);
+      if(bookin.Quantity == 2){
+        bookin.Quantity = bookin.Quantity-1;
+        await this.bookingEntity.save(bookin);
+      }else{
+        await this.bookingEntity.remove(bookin);
+      }
 
       var user = fieldToDelete.User;
 
@@ -212,7 +217,10 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField
         const booking = await this.bookingEntity.create(newBooking);
         await this.bookingEntity.save(booking);
         return 1;
-      } else {
+      }else if(validate.Quantity>2){
+        return 5;
+      }
+       else {
         validate.Quantity = validate.Quantity + 1;
         await this.bookingEntity.save(validate);
         return validate.Quantity;
