@@ -22,7 +22,13 @@ export class AreaService {
             if(!management){
                 return{msg:'No se encontro la gerencia',success:false}
             }
-            newArea.NameArea = request.NameArea;
+            newArea.NameArea = request.NameArea.toUpperCase();
+            
+            var area = await this.areaRepository.findOne({where:{NameArea: newArea.NameArea}});
+            
+            if(area){
+                return {msg:"ya existe un area igual", success:false}
+            }
             newArea.Management= management;
             newArea.Date = new Date();
 

@@ -11,5 +11,5 @@ export class BookingEntity{
     @Column()
     Quantity: number;
     @Column()
-    IdArea: number;
+    Area: string;
 }

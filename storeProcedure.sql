@@ -2,7 +2,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllField1()
 BEGIN
-    SELECT f.IdField1Entity,f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field1 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
+    SELECT f.IdField1Entity,f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement,f.ListPlayer, f.DateDay FROM Field1 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
 END//
 
 DELIMITER ;
@@ -11,7 +11,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllField2()
 BEGIN
-    SELECT f.IdField2Entity,f.StartTime, f.EndTime, u.FirstName, u.LastName, a.NameArea, m.NameManagement, f.DateDay FROM Field2 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
+    SELECT * FROM Field2 f INNER JOIN User u ON f.userIdUser = u.IdUser INNER JOIN Area a ON u.areaIdArea = a.IdArea INNER JOIN Management m ON a.managementIdManagement = m.IdManagement;
 END//
 
 DELIMITER ;

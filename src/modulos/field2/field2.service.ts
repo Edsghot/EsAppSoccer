@@ -50,8 +50,7 @@ export class Field2Service {
         }
 
         const DateWeekend = request.StartWeekend + "-" + request.EndWeekend;
-        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, user.IdUser);
-
+        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, nameArea);
 
         if (contadorSemana > 2) {
           return { msg: "El area de " + nameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
@@ -188,15 +187,15 @@ export class Field2Service {
     }
   }
 
-async GetFieldByDateWeekend(DateWeekend: string,idArea:number): Promise<number> {
+async GetFieldByDateWeekend(DateWeekend: string,area:string): Promise<number> {
   try {
     
-    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,IdArea:idArea}});
+    const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,Area:area}});
     if(!validate){
         var newBooking = new BookingEntity();
         newBooking.DateWeekend = DateWeekend
         newBooking.Quantity = 1;
-        newBooking.IdArea = idArea;
+        newBooking.Area = area;
 
         const booking = await this.bookingEntity.create(newBooking);
         await this.bookingEntity.save(booking);

@@ -41,7 +41,7 @@ export class Field2Controller {
     async test() {
         const Date = "2024-04-22-2024-04-28"// área de prueba
 
-        return await this.fieldsService.GetFieldByDateWeekend(Date,2);
+        return await this.fieldsService.GetFieldByDateWeekend(Date,"Recursos");
     }
 
     @Post("/GetField2ByDateRange")
