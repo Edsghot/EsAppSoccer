@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { create } from 'domain';
 import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
 import { UpdateReportDto } from 'src/DTO/Report/UpdateReport.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { ReportEntity } from 'src/ENTITY/Report.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 
 @Injectable()
 export class ReportService {
@@ -30,6 +31,7 @@ export class ReportService {
             newReport.NamePlayer = createReportDto.NamePlayer;
             newReport.Description = createReportDto.Description;
             newReport.IndViewed = false;
+            newReport.DateRegister= new Date();
             var fec = new Date();
             let day = fec.getDate().toString();
             let month = (fec.getMonth()+1).toString();
@@ -133,6 +135,23 @@ export class ReportService {
         } catch (e) {
             console.error('Failed to update report:', e);
             return { msg: 'Failed to update report', detailMsg: e, success: false };
+        }
+    }
+
+    async getReportsBetweenDates(request:WeeklyDto) {
+        try {
+            const reports = await this.reportRepository.find({
+                where: {
+                    DateRegister: Between(request.StartDate, request.EndDate),
+                },
+            });
+            if (reports.length === 0) {
+                return { msg: 'No hay reportes disponibles', success: false };
+            }
+            return { data: reports, msg: 'Success', success: true };
+        } catch (e) {
+            console.error('Failed to get reports between dates:', e);
+            return { msg: 'Failed to get reports between dates', detailMsg: e, success: false };
         }
     }
 }

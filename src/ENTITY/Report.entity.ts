@@ -15,4 +15,6 @@ export class ReportEntity{
     NamePlayer:string;
     @ManyToOne(() => AreaEntity, area => area.Report)
     Area: AreaEntity;
+    @Column()
+    DateRegister: Date;
 }

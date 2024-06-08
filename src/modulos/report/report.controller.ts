@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/
 import { ReportService } from './report.service';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
 import { UpdateReportDto } from 'src/DTO/Report/UpdateReport.dto';
+import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 
 @Controller('api/report')
 export class ReportController {
@@ -36,6 +37,13 @@ export class ReportController {
     async updateReport(@Param('id') id: number, @Body() updateReportDto: UpdateReportDto) {
         return await this.reportService.updateReport(id, updateReportDto);
     }
+
+    @Post('/report/')
+    async getReportsBetweenDates(@Body() request: WeeklyDto) {
+        return this.reportService.getReportsBetweenDates(request);
+    }
+
+
 
     
 }
