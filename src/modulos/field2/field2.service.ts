@@ -6,7 +6,7 @@ import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
-import { Repository } from 'typeorm';
+import { OrderByCondition, Repository } from 'typeorm';
 
 @Injectable()
 export class Field2Service {
@@ -30,9 +30,11 @@ export class Field2Service {
         return { msg: 'no se encontro el usuario', success: false };
       }
 
-      const ultField2 = await this.fieldRepository.findOne({
-        order: { DateRegister: 'DESC' }
-    });
+      const ultField2 = await this.fieldRepository
+    .createQueryBuilder("field2")
+    .orderBy("field2.DateRegister", "DESC")
+    .getOne();
+
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
