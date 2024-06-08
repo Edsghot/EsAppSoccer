@@ -14,4 +14,7 @@ export class BookingEntity{
     Area: string;
     @Column()
     Shift: string;
+    @Column()
+    IdField: number;
+    
 }

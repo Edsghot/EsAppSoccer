@@ -38,7 +38,7 @@ export class ReportController {
         return await this.reportService.updateReport(id, updateReportDto);
     }
 
-    @Post('/report/')
+    @Post('/reporte/')
     async getReportsBetweenDates(@Body() request: WeeklyDto) {
         return this.reportService.getReportsBetweenDates(request);
     }

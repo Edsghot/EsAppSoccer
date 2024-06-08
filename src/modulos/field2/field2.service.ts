@@ -29,6 +29,10 @@ export class Field2Service {
       if (!user) {
         return { msg: 'no se encontro el usuario', success: false };
       }
+
+      const ultField2 = await this.fieldRepository.findOne({
+        order: { DateRegister: 'DESC' }
+    });
       newF.User = user;
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
@@ -50,7 +54,7 @@ export class Field2Service {
         }
 
         const DateWeekend = request.StartWeekend + "-" + request.EndWeekend;
-        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, nameArea,user.Shift);
+        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, nameArea,user.Shift,ultField2.IdField2Entity+1);
 
         if (contadorSemana > 2) {
           return { msg: "El area de " + nameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
@@ -108,6 +112,10 @@ export class Field2Service {
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
       }
+
+      var bookin = await this.bookingEntity.findOne({where:{IdField:fieldToDelete.IdField2Entity}});
+
+      await this.bookingEntity.remove(bookin);
 
       var user = fieldToDelete.User;
 
@@ -187,7 +195,7 @@ export class Field2Service {
     }
   }
 
-async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string): Promise<number> {
+async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField:number): Promise<number> {
   try {
     
     const validate = await this.bookingEntity.findOne({where: {DateWeekend:DateWeekend,Area:area,Shift:shift}});
@@ -197,6 +205,7 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string): Promi
         newBooking.Quantity = 1;
         newBooking.Area = area;
         newBooking.Shift = shift;
+        newBooking.IdField = IdField;
 
         const booking = await this.bookingEntity.create(newBooking);
         await this.bookingEntity.save(booking);
