@@ -24,6 +24,7 @@ export class Field2Service {
   async CreateField2(request: CreateField2Dto) {
     try {
       let newF = new Field2Entity();
+      let ultField = 1;
       const user = (await this.userRepository.query("select * from User Where IdUser = "+request.IdUser))[0];
 
       if (!user) {
@@ -34,6 +35,11 @@ export class Field2Service {
     .createQueryBuilder("field2")
     .orderBy("field2.DateRegister", "DESC")
     .getOne();
+
+    if(ultField2){
+      ultField = ultField2.IdField2Entity + 1;
+  }
+    
 
       newF.User = user;
       newF.StartTime = request.StartTime;
@@ -56,7 +62,7 @@ export class Field2Service {
         }
 
         const DateWeekend = request.StartWeekend + "-" + request.EndWeekend;
-        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, nameArea,user.Shift,ultField2.IdField2Entity+1);
+        const contadorSemana = await this.GetFieldByDateWeekend(DateWeekend, nameArea,user.Shift,ultField);
 
         if (contadorSemana > 2) {
           return { msg: "El area de " + nameArea.toUpperCase() + " ya supero el limite de registro de esta semana", success: false }
