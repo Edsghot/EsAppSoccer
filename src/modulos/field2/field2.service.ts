@@ -123,8 +123,8 @@ export class Field2Service {
 
       var bookin = await this.bookingEntity.findOne({where:{IdField:fieldToDelete.IdField2Entity}});
 
-      if(bookin.Quantity == 1){
-        bookin.Quantity = bookin.Quantity-1;
+      if(bookin.Quantity > 1){
+        bookin.Quantity = 0;
         await this.bookingEntity.save(bookin);
       }else{
         await this.bookingEntity.remove(bookin);
