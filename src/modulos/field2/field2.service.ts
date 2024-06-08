@@ -214,28 +214,55 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string): Promi
 
   async getField2ByDateRange(request: WeeklyDto) {
     try {
-      const data = await this.fieldRepository
-        .createQueryBuilder('field2')
-        .where('field2.dateDay BETWEEN :startDate AND :endDate', {
-          startDate: request.StartDate,
-          endDate: request.EndDate,
-        })
-        .getMany();
+        const data = await this.fieldRepository
+            .createQueryBuilder('field2')
+            .innerJoinAndSelect('field2.User', 'user')
+            .innerJoinAndSelect('user.Area', 'area')
+            .where('field2.DateDay BETWEEN :startDate AND :endDate', {
+                startDate: request.StartDate,
+                endDate: request.EndDate,
+            })
+            .getMany();
 
-      return {
-        msg: 'Lista de reservas completa',
-        data: data,
-        success: true,
-      };
+        return {
+            msg: 'Lista de reservas completa',
+            data: data.map(field => ({
+                IdField2Entity: field.IdField2Entity,
+                StartTime: field.StartTime,
+                EndTime: field.EndTime,
+                DateDay: field.DateDay,
+                DateRegister: field.DateRegister,
+                ListPlayer: field.ListPlayer,
+                User: {
+                    IdUser: field.User.IdUser,
+                    FirstName: field.User.FirstName,
+                    LastName: field.User.LastName,
+                    Password: field.User.Password,
+                    Dni: field.User.Dni,
+                    EmployeeCode: field.User.EmployeeCode,
+                    Shift: field.User.Shift,
+                    PhoneNumber: field.User.PhoneNumber,
+                    Mail: field.User.Mail,
+                    Rol: field.User.Rol,
+                    Date: field.User.Date,
+                    IndActive: field.User.IndActive,
+                    NameArea: field.User.Area ? field.User.Area.NameArea : null,
+                },
+            })),
+            success: true,
+        };
     } catch (error) {
-      console.error('Failed to fetch all fields:', error);
-      return {
-        msg: 'Failed to fetch all fields',
-        detailMsg: error.message,
-        success: false,
-      };
+        console.error('Failed to fetch all fields:', error);
+        return {
+            msg: 'Failed to fetch all fields',
+            detailMsg: error.message,
+            success: false,
+        };
     }
-  }
+}
+
+
+
 
   
 }

@@ -60,22 +60,26 @@ export class NotificationService {
         }
     }
 
-    async getAreabyId(managementId:number){
-        try{
-
-            const area=await this.areaReporsitory.findOne({where: {IdArea:managementId}});
-            if(!area){
-                return {msg:"La area no existe",success:false}
+    async getAreabyId(managementId: number) {
+        try {
+            const area = await this.areaReporsitory.findOne({ where: { IdArea: managementId } });
+            if (!area) {
+                return { msg: "La area no existe", success: false };
             }
-            const management=await this.notificationRepository.find({
-                where:{Area:area}
+    
+            const notifications = await this.notificationRepository.find({
+                where: { Area: area },
+                order: { Date: 'DESC' },
+                take: 4
             });
-            return {data:management,msg:"success",success:true}
-        }catch(e){
+    
+            return { data: notifications, msg: "success", success: true };
+        } catch (e) {
             console.error('Failed to get area by Id:', e);
             return { msg: 'Failed to get area by Id', detailMsg: e, success: false };
         }
     }
+    
 
     async deleteNotification(notificationId:number){
         try{

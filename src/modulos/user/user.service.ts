@@ -185,10 +185,9 @@ export class UserService {
 
   async getUserById(userId: number) {
     try {
-      const user = await this.userRepository.findOne({
-        where: { IdUser: userId },
-      });
-      return { data: user, msg: 'Success', success: true };
+      const user = await this.userRepository.query('select * from User INNER join Area on User.areaIdArea = Area.IdArea INNER join Management on Area.managementIdManagement = Management.IdManagement where User.IdUser = '+userId);
+
+      return { data: user[0], msg: 'Success', success: true };
     } catch (error) {
       console.error('Failed to get user by ID:', error);
       return { msg: 'Failed to get user', detailMsg: error, success: false };
