@@ -166,13 +166,19 @@ export class Field2Service {
 
   async getById(id: number) {
     try {
+      const field = await this.fieldRepository.query(
+        `SELECT * FROM Field2 
+         INNER JOIN User ON Field2.userIdUser = User.IdUser 
+         INNER JOIN Area ON User.areaIdArea = Area.idArea 
+         INNER JOIN Management ON Area.managementIdManagement = Management.idManagement 
+         WHERE Field2.IdField2Entity = ?`,
+        [id]
+      );
 
-      const field = await this.fieldRepository.query("select * from Field2 inner join User on Field2.userIdUser = User.IdUser inner join Area on User.areaIdArea = Area.IdArea INNER join Management on Area.managementIdManagement = Management.IdManagement where Field2.IdField2Entity = "+id);
-
-      return { data: field[0], msg: 'Success', success: true }
+      return { data: field[0], msg: 'Success', success: true };
     } catch (e) {
       console.error('Failed to get area by ID:', e);
-      return { msg: 'Failed to get area', detailMsg: e, success: false };
+      return { msg: 'Failed to get area', detailMsg: e.message, success: false };
     }
   }
 
