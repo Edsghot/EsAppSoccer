@@ -288,13 +288,13 @@ export class UserService {
 
   async getUserByDateRange(request: WeeklyDto) {
     try {
-      const data = await this.userRepository
-        .createQueryBuilder('user')
-        .where('user.date BETWEEN :startDate AND :endDate', {
-          startDate: request.StartDate,
-          endDate: request.EndDate,
-        })
-        .getMany();
+      const data = await this.userRepository.query(
+        `SELECT * FROM User 
+         INNER JOIN Area ON User.areaIdArea = Area.idArea 
+         INNER JOIN Management ON Area.managementIdManagement = Management.idManagement 
+         WHERE User.date BETWEEN ? AND ?`,
+        [request.StartDate, request.EndDate]
+      );
   
       return {
         msg: 'Lista de reservas completa',
