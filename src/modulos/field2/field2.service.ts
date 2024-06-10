@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { DeleteField2Dto } from 'src/DTO/Field2/deleteField2Dto.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
@@ -106,14 +107,15 @@ export class Field2Service {
       return { data: field, msg: 'Success', success: true };
     } catch (error) {
       console.error('Failed to get field by ID:', error);
-      return { msg: 'Failed to get field', detailMsg: error, success: false };
+      return { msg: 'Failed to get field', detailMsg: error, successShift: "Noche"
     }
   }
+}
 
-  async deleteField(id: number) {
+  async deleteField(request:DeleteField2Dto) {
     try {
       const fieldToDelete = await this.fieldRepository.findOne({
-        where: { IdField2Entity: id },
+        where: { IdField2Entity: request.IdField },
         relations: ['User'],
       });
       
@@ -121,10 +123,14 @@ export class Field2Service {
         return { msg: 'Field not found', success: false };
       }
 
-      var bookin = await this.bookingEntity.findOne({where:{IdField:fieldToDelete.IdField2Entity}});
+      var bookin = await this.bookingEntity.findOne({where:{Shift: request.Shift,Area: request.Area,DateWeekend:request.DateWeekendRange}});
+
+      if(!bookin){
+        return {msg:"Error en booking, llame al tecnico", }
+      }
 
       if(bookin.Quantity > 1){
-        bookin.Quantity = 0;
+        bookin.Quantity = 1;
         await this.bookingEntity.save(bookin);
       }else{
         await this.bookingEntity.remove(bookin);
@@ -243,7 +249,7 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField
   }
 
 
-  async getField2ByDateRange(request: WeeklyDto) {
+  async getField2ByDateRange(request: WeeklyDto){
     try {
         const data = await this.fieldRepository
             .createQueryBuilder('field2')
@@ -290,11 +296,7 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField
             success: false,
         };
     }
+  }
 }
 
-
-
-
-  
-}
 
