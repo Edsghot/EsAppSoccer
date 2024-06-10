@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { DeleteField2Dto } from 'src/DTO/Field2/DeleteField2Dto.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
-import { OrderByCondition, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class Field2Service {

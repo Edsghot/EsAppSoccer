@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/commo
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field2Service } from './field2.service';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
+import { DeleteField2Dto } from 'src/DTO/Field2/DeleteField2Dto.dto';
 
 @Controller('api/field2')
 export class Field2Controller {
