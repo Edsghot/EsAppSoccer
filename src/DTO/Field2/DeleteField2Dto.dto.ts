@@ -3,4 +3,5 @@ export class DeleteField2Dto{
     Shift: string;
     Area: string;
     DateWeekendRange: string;
+    Rol:number;
 }

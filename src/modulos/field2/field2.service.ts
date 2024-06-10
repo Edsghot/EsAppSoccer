@@ -123,6 +123,8 @@ export class Field2Service {
         return { msg: 'Field not found', success: false };
       }
 
+      if(request.Rol !== 1){
+
       var bookin = await this.bookingEntity.findOne({where:{Shift: request.Shift,Area: request.Area,DateWeekend:request.DateWeekendRange}});
 
       if(!bookin){
@@ -135,6 +137,7 @@ export class Field2Service {
       }else{
         await this.bookingEntity.remove(bookin);
       }
+    }
 
       var user = fieldToDelete.User;
 
