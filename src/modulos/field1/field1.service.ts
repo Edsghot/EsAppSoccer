@@ -87,6 +87,7 @@ export class Field1Service {
     try {
       const fieldToDelete = await this.fieldRepository.findOne({
         where: { IdField1Entity: id },
+        relations: ['User'],
       });
       if (!fieldToDelete) {
         return { msg: 'Field not found', success: false };
