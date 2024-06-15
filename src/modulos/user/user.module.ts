@@ -14,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
     imports: [
         TypeOrmModule.forFeature([UserEntity]),TypeOrmModule.forFeature([AreaEntity]),TypeOrmModule.forFeature([ValidateEmailSmsEntity])
-      ,HttpModule,ConfigModule],
+      ,HttpModule],
   controllers: [UserController],
   providers: [UserService,ValidateService,AuthValidateService]
 })

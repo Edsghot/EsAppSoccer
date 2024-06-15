@@ -21,7 +21,6 @@ export class UserService {
   code: number;
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(AreaEntity)
@@ -178,9 +177,9 @@ export class UserService {
     }
   }
 
-  async GetUserByDni(dni: string) {
-    const url = `https://api.apis.net/v2/reniec/dni?numero=${dni}`;
-    const token = 'your-token-here';  
+  async getUserByDni(dni: string) {
+    const url = `https://api.apis.net.pe/v2/reniec/dni?numero=${dni}`;
+    const token = 'apis-token-9036.eXAHgPrLRexBPyFBjhePdCGPbddXmWvC';  
 
     try {
       const response = await lastValueFrom(
@@ -190,14 +189,16 @@ export class UserService {
           },
         })
       );
-      if(!response){
-        return {msg:"Error al consultar", data: response.data,success:false};
+
+      if (!response) {
+        return { msg: "Error al consultar", data: null, success: false };
       }
-      return {msg:"Datos del Dni", data: response.data,success:true};
+
+      return { msg: "Datos del Dni", data: response.data, success: true };
     } catch (error) {
       throw new Error(`Error fetching data from RENIEC: ${error.message}`);
-    }
-  }
+    }}
+    
   async deleteUser(userId: number) {
     try {
       await this.userRepository.delete(userId);

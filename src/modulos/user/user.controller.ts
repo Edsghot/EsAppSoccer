@@ -39,7 +39,7 @@ export class UserController {
 
     @Get('/Reniec/:dni')
     async getByDni(@Param('dni')dni:string){
-        return await this.userService.GetUserByDni(dni);
+        return await this.userService.getUserByDni(dni);
     }
 
     @Get('/getById/:id')
