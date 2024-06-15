@@ -41,7 +41,7 @@ export class ReportService {
             } 
 
             if (fec.getMonth()+1 < 10) {
-                month = "0"+fec.getMonth()+1;
+                month = "0"+(fec.getMonth()+1);
             }
 
             newReport.Date = day + "/" + month + '/' + fec.getFullYear();
