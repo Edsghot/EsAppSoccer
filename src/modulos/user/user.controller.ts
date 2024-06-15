@@ -37,7 +37,12 @@ export class UserController {
         return await this.userService.getAllUsers();
     }
 
-    @Get(':id')
+    @Get('/Reniec/:dni')
+    async getByDni(@Param('dni')dni:string){
+        return await this.userService.GetUserByDni(dni);
+    }
+
+    @Get('/getById/:id')
     async getUserById(@Param('id') id: number) {
         return await this.userService.getUserById(id);
     }

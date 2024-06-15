@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/DTO/User/createUserDto.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
@@ -12,11 +12,16 @@ import { ValidateEmailSmsEntity } from 'src/ENTITY/ValidateEmailSms.entity';
 import * as bcrypt from 'bcrypt';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { AuthValidateService } from '../auth-validate/auth-validate.service';
+import { lastValueFrom } from 'rxjs';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class UserService {
   code: number;
   constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(AreaEntity)
@@ -173,6 +178,26 @@ export class UserService {
     }
   }
 
+  async GetUserByDni(dni: string) {
+    const url = `https://api.apis.net/v2/reniec/dni?numero=${dni}`;
+    const token = 'your-token-here';  
+
+    try {
+      const response = await lastValueFrom(
+        this.httpService.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,  
+          },
+        })
+      );
+      if(!response){
+        return {msg:"Error al consultar", data: response.data,success:false};
+      }
+      return {msg:"Datos del Dni", data: response.data,success:true};
+    } catch (error) {
+      throw new Error(`Error fetching data from RENIEC: ${error.message}`);
+    }
+  }
   async deleteUser(userId: number) {
     try {
       await this.userRepository.delete(userId);
