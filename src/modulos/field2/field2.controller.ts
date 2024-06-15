@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/commo
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { Field2Service } from './field2.service';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
+import { DeleteField2Dto } from 'src/DTO/Field2/DeleteField2Dto.dto';
 
 @Controller('api/field2')
 export class Field2Controller {
@@ -22,9 +23,9 @@ export class Field2Controller {
       return await this.fieldsService.getById(id);
     }
   
-    @Delete(':id')
-    async deleteField(@Param('id') id: number) {
-      return await this.fieldsService.deleteField(id);
+    @Delete('/deleteField/')
+    async deleteField(@Body() request: DeleteField2Dto) {
+      return await this.fieldsService.deleteField(request);
     }
 
     @Get("/GetAllTotal")

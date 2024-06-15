@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
+import { DeleteField2Dto } from 'src/DTO/Field2/DeleteField2Dto.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { BookingEntity } from 'src/ENTITY/Booking.entity';
 import { Field2Entity } from 'src/ENTITY/Field2.entity';
 import { UserEntity } from 'src/ENTITY/User.entity';
-import { OrderByCondition, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class Field2Service {
@@ -106,14 +107,15 @@ export class Field2Service {
       return { data: field, msg: 'Success', success: true };
     } catch (error) {
       console.error('Failed to get field by ID:', error);
-      return { msg: 'Failed to get field', detailMsg: error, success: false };
+      return { msg: 'Failed to get field', detailMsg: error, successShift: "Noche"
     }
   }
+}
 
-  async deleteField(id: number) {
+  async deleteField(request:DeleteField2Dto) {
     try {
       const fieldToDelete = await this.fieldRepository.findOne({
-        where: { IdField2Entity: id },
+        where: { IdField2Entity: request.IdField },
         relations: ['User'],
       });
       
@@ -121,14 +123,21 @@ export class Field2Service {
         return { msg: 'Field not found', success: false };
       }
 
-      var bookin = await this.bookingEntity.findOne({where:{IdField:fieldToDelete.IdField2Entity}});
+      if(request.Rol !== 1){
+
+      var bookin = await this.bookingEntity.findOne({where:{Shift: request.Shift,Area: request.Area,DateWeekend:request.DateWeekendRange}});
+
+      if(!bookin){
+        return {msg:"Error en booking, llame al tecnico", }
+      }
 
       if(bookin.Quantity > 1){
-        bookin.Quantity = 0;
+        bookin.Quantity = 1;
         await this.bookingEntity.save(bookin);
       }else{
         await this.bookingEntity.remove(bookin);
       }
+    }
 
       var user = fieldToDelete.User;
 
@@ -166,13 +175,19 @@ export class Field2Service {
 
   async getById(id: number) {
     try {
+      const field = await this.fieldRepository.query(
+        `SELECT * FROM Field2 
+         INNER JOIN User ON Field2.userIdUser = User.IdUser 
+         INNER JOIN Area ON User.areaIdArea = Area.idArea 
+         INNER JOIN Management ON Area.managementIdManagement = Management.idManagement 
+         WHERE Field2.IdField2Entity = ?`,
+        [id]
+      );
 
-      const field = await this.fieldRepository.query("select * from Field2 inner join User on Field2.userIdUser = User.IdUser inner join Area on User.areaIdArea = Area.IdArea INNER join Management on Area.managementIdManagement = Management.IdManagement where Field2.IdField2Entity = "+id);
-
-      return { data: field[0], msg: 'Success', success: true }
+      return { data: field[0], msg: 'Success', success: true };
     } catch (e) {
       console.error('Failed to get area by ID:', e);
-      return { msg: 'Failed to get area', detailMsg: e, success: false };
+      return { msg: 'Failed to get area', detailMsg: e.message, success: false };
     }
   }
 
@@ -237,7 +252,7 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField
   }
 
 
-  async getField2ByDateRange(request: WeeklyDto) {
+  async getField2ByDateRange(request: WeeklyDto){
     try {
         const data = await this.fieldRepository
             .createQueryBuilder('field2')
@@ -284,11 +299,7 @@ async GetFieldByDateWeekend(DateWeekend: string,area:string,shift:string,IdField
             success: false,
         };
     }
+  }
 }
 
-
-
-
-  
-}
 
