@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import moment from 'moment';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { DeleteField2Dto } from 'src/DTO/Field2/DeleteField2Dto.dto';
@@ -47,7 +48,7 @@ export class Field2Service {
       newF.EndTime = request.EndTime;
       newF.ListPlayer = request.ListPlayer;
       newF.DateDay = request.DateDay;
-      newF.DateRegister=new Date();
+      newF.DateRegister=moment.tz('America/Lima').toDate();;
 
       if (user.Rol != 4) {
 

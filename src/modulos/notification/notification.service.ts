@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import moment from 'moment';
 import { CreateNotificationDto } from 'src/DTO/Notification/CreateNotification.dto';
 import { UpdateNotificationDto } from 'src/DTO/Notification/UpdateNotification.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
@@ -25,7 +26,7 @@ export class NotificationService {
             newNotification.Area=area;
             newNotification.Message=createNotificationDto.Message;
             newNotification.IndViewed = false;
-            newNotification.Date=new Date();
+            newNotification.Date=moment.tz('America/Lima').toDate();;
             var Create=await this.notificationRepository.create(newNotification);
             await this.notificationRepository.save(Create);
             return {msg:"Se inserto correctamente",success:true}

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { count } from 'console';
+import moment from 'moment';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateField2Dto } from 'src/DTO/Field2/CreateField2Dto.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
@@ -34,7 +35,7 @@ export class Field1Service {
       newF.StartTime = request.StartTime;
       newF.EndTime = request.EndTime;
       newF.DateDay = request.DateDay;
-      newF.DateRegister=new Date();
+      newF.DateRegister=moment.tz('America/Lima').toDate();;
       newF.ListPlayer = request.ListPlayer;
 
       const field = await this.fieldRepository.create(newF);

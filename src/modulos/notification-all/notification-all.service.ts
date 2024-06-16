@@ -1,6 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import moment from 'moment';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateNotificationAllDto } from 'src/DTO/NotificationAll/CreateNotificationAllDto.dto';
 import { UpdateNotificationAllDto } from 'src/DTO/NotificationAll/UpdateNotificationAllDto.dto';
@@ -16,7 +17,7 @@ export class NotificationAllService {
     async insertNotification(createNotificationAllDto: CreateNotificationAllDto) {
         try {
             const newNotification = new NotificationAllEntity();
-            newNotification.DateRegister = new Date();
+            newNotification.DateRegister = moment.tz('America/Lima').toDate();;
             newNotification.DateDay = createNotificationAllDto.DateDay;
             newNotification.Time = createNotificationAllDto.Time;
             newNotification.Message = createNotificationAllDto.Message;

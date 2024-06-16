@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import moment from 'moment';
 import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
 import { UpdateAreaDto } from 'src/DTO/Area/UpdateArea.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';
@@ -30,7 +31,7 @@ export class AreaService {
                 return {msg:"ya existe un area igual", success:false}
             }
             newArea.Management= management;
-            newArea.Date = new Date();
+            newArea.Date = moment.tz('America/Lima').toDate();;
 
             var Create = await this.areaRepository.create(newArea);
             await this.areaRepository.save(Create);

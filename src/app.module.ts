@@ -9,6 +9,7 @@ import { NotificationModule } from './modulos/notification/notification.module';
 import { ReportModule } from './modulos/report/report.module';
 import { AuthValidateModule } from './modulos/auth-validate/auth-validate.module';
 import { NotificationAllModule } from './modulos/notification-all/notification-all.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -20,7 +21,9 @@ import { NotificationAllModule } from './modulos/notification-all/notification-a
     database: 'nibcqvah_EsAppSoccer',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
-}),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule,AuthValidateModule, NotificationAllModule ],
+}),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule,AuthValidateModule, NotificationAllModule,ConfigModule.forRoot({
+  isGlobal: true,
+}) ],
   controllers: [],
   providers: [ ],
 })

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { create } from 'domain';
+import * as moment from 'moment-timezone';
 import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
@@ -31,11 +32,20 @@ export class ReportService {
             newReport.NamePlayer = createReportDto.NamePlayer;
             newReport.Description = createReportDto.Description;
             newReport.IndViewed = false;
-            newReport.DateRegister= new Date();
-            var fec = new Date();
-           
+            newReport.DateRegister= moment.tz('America/Lima').toDate();
+            var fec = moment.tz('America/Lima').toDate();
+            let day = fec.getDate().toString();
+            let month = (fec.getMonth()+1).toString();
 
-            newReport.Date = fec.toString();
+            if (fec.getDate() < 10) {
+                 day = "0"+fec.getDay();
+            } 
+
+            if (fec.getMonth()+1 < 10) {
+                month = "0"+(fec.getMonth()+1);
+            }
+
+            newReport.Date = day + "/" + month + '/' + fec.getFullYear();
             
             var Create = await this.reportRepository.create(newReport);
             await this.reportRepository.save(Create);

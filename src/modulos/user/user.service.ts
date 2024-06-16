@@ -15,12 +15,14 @@ import { AuthValidateService } from '../auth-validate/auth-validate.service';
 import { lastValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
+import moment from 'moment';
 
 @Injectable()
 export class UserService {
   code: number;
   constructor(
     private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(AreaEntity)
@@ -89,7 +91,7 @@ export class UserService {
         Shift: request.Shift,
         Mail: request.Mail,
         Rol: request.Rol,
-        Date:new Date(),
+        Date:moment.tz('America/Lima').toDate(),
         IndActive: true
       });
 
@@ -179,7 +181,7 @@ export class UserService {
 
   async getUserByDni(dni: string) {
     const url = `https://api.apis.net.pe/v2/reniec/dni?numero=${dni}`;
-    const token = 'apis-token-9036.eXAHgPrLRexBPyFBjhePdCGPbddXmWvC';  
+    const token = this.configService.get<string>('RENIEC_API_TOKEN');
 
     try {
       const response = await lastValueFrom(
