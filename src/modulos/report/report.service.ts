@@ -139,20 +139,28 @@ export class ReportService {
         }
     }
 
-    async getReportsBetweenDates(request:WeeklyDto) {
+    async getReportsBetweenDates(request: WeeklyDto) {
         try {
-            const reports = await this.reportRepository.find({
-                where: {
-                    DateRegister: Between(request.StartDate, request.EndDate),
-                },
-            });
+            // Utiliza parámetros para evitar inyecciones SQL
+            const query = `
+                SELECT * FROM Report
+                INNER JOIN Area ON Report.areaIdArea = Area.IdArea
+                INNER JOIN Management ON Management.IdManagement = Area.managementIdManagement
+                WHERE Report.DateRegister BETWEEN ? AND ?;
+            `;
+            
+            // Ejecutar la consulta usando parámetros
+            const reports = await this.reportRepository.query(query, [request.StartDate, request.EndDate]);
+    
             if (reports.length === 0) {
                 return { msg: 'No hay reportes disponibles', success: false };
             }
+            
             return { data: reports, msg: 'Success', success: true };
         } catch (e) {
             console.error('Failed to get reports between dates:', e);
-            return { msg: 'Failed to get reports between dates', detailMsg: e, success: false };
+            return { msg: 'Failed to get reports between dates', detailMsg: e.message, success: false };
         }
     }
+    
 }
