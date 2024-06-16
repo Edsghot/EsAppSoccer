@@ -33,18 +33,9 @@ export class ReportService {
             newReport.IndViewed = false;
             newReport.DateRegister= new Date();
             var fec = new Date();
-            let day = fec.getDate().toString();
-            let month = (fec.getMonth()+1).toString();
+           
 
-            if (fec.getDate() < 10) {
-                 day = "0"+fec.getDay();
-            } 
-
-            if (fec.getMonth()+1 < 10) {
-                month = "0"+(fec.getMonth()+1);
-            }
-
-            newReport.Date = day + "/" + month + '/' + fec.getFullYear();
+            newReport.Date = fec.toString();
             
             var Create = await this.reportRepository.create(newReport);
             await this.reportRepository.save(Create);
