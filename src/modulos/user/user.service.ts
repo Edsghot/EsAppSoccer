@@ -178,7 +178,7 @@ export class UserService {
   }
 
   async getUserByDni(dni: string) {
-    const url = `https://api.apis.net.pe/v2/reniec/dni?numero=${dni}`;
+    const url = 'https://api.apis.net.pe/v2/reniec/dni?numero=73639719';
     const token = 'apis-token-9036.eXAHgPrLRexBPyFBjhePdCGPbddXmWvC';  
 
     try {
@@ -196,7 +196,7 @@ export class UserService {
 
       return { msg: "Datos del Dni", data: response.data, success: true };
     } catch (error) {
-      throw new Error(`Error fetching data from RENIEC: ${error.message}`);
+      throw new Error(`Error fetching data from RENIEC: ${error}`);
     }}
     
   async deleteUser(userId: number) {
