@@ -178,7 +178,7 @@ export class UserService {
   }
 
   async getUserByDni(dni: string) {
-    const url = 'https://api.apis.net.pe/v2/reniec/dni?numero=73639719';
+    const url = `https://api.apis.net.pe/v2/reniec/dni?numero=${dni}`;
     const token = 'apis-token-9036.eXAHgPrLRexBPyFBjhePdCGPbddXmWvC';  
 
     try {
