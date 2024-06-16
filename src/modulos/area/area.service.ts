@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import moment from 'moment';
+import * as moment from 'moment-timezone';
 import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
 import { UpdateAreaDto } from 'src/DTO/Area/UpdateArea.dto';
 import { UpdateUserDto } from 'src/DTO/User/updateUserDto.dto';

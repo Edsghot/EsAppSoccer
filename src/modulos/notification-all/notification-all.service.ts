@@ -1,7 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import moment from 'moment';
+import * as moment from 'moment-timezone';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateNotificationAllDto } from 'src/DTO/NotificationAll/CreateNotificationAllDto.dto';
 import { UpdateNotificationAllDto } from 'src/DTO/NotificationAll/UpdateNotificationAllDto.dto';

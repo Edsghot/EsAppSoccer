@@ -15,7 +15,7 @@ import { AuthValidateService } from '../auth-validate/auth-validate.service';
 import { lastValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
-import moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class UserService {
@@ -76,7 +76,7 @@ export class UserService {
         return {msg:"No se encontro la Area",success: false,data: null};
       }
 
-      
+      var dat = moment.tz('America/Lima').toDate();
       const newUser = this.userRepository.create({
         FirstName: request.FirstName,
         LastName: request.LastName,
@@ -91,7 +91,7 @@ export class UserService {
         Shift: request.Shift,
         Mail: request.Mail,
         Rol: request.Rol,
-        Date:moment.tz('America/Lima').toDate(),
+        Date: dat,
         IndActive: true
       });
 
