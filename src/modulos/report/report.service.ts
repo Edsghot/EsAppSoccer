@@ -5,6 +5,7 @@ import * as moment from 'moment-timezone';
 import { CreateAreaDto } from 'src/DTO/Area/CreateArea.dto';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
+import { dateDayDto } from 'src/DTO/Report/DateDay.dto';
 import { UpdateReportDto } from 'src/DTO/Report/UpdateReport.dto';
 import { AreaEntity } from 'src/ENTITY/Area.entity';
 import { ReportEntity } from 'src/ENTITY/Report.entity';
@@ -79,25 +80,28 @@ export class ReportService {
             return { msg: 'Failed to get repot', detailMsg: e, success: false };
         }
     }
-
-    async getReportByDay(date: string) {
+    async getReportByDay(date: dateDayDto) {
         try {
-            const report = await this.reportRepository.find({
-                where: { Date: date },
-            });
-            if (!report) {
-                return { msg: 'El reporte no existe por ese dia', success: false };
+            // Usar ? para los parámetros y pasarlos como array
+            const reports = await this.reportRepository.query('CALL reportGetByDay(?)', [date.dateDay]);
+            
+            if (reports.length === 0) {
+                return { msg: 'El reporte no existe para ese día', success: false };
             }
-            return { data: report, msg: 'Success', success: true };
+    
+            return { data: reports[0][0], msg: 'Success', success: true };
         } catch (e) {
             console.error('Failed to get report by day:', e);
             return {
-                msg: 'Failed to get repot by day',
-                detailMsg: e,
+                msg: 'Failed to get report by day',
+                detailMsg: e.message,
                 success: false,
             };
         }
     }
+    
+    
+    
     async deleteReport(reportId: number) {
         try {
             const report = await this.reportRepository.findOne({

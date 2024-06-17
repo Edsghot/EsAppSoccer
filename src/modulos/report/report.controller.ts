@@ -3,6 +3,8 @@ import { ReportService } from './report.service';
 import { CreateReportDto } from 'src/DTO/Report/CreateReport.dto';
 import { UpdateReportDto } from 'src/DTO/Report/UpdateReport.dto';
 import { WeeklyDto } from 'src/DTO/Field1/weeklyDto.dto';
+import { dateDayDto } from 'src/DTO/Report/DateDay.dto';
+import request from 'superagent';
 
 @Controller('api/report')
 export class ReportController {
@@ -24,7 +26,7 @@ export class ReportController {
     }
 
     @Get('/getByDay')
-    async getReportByDay(@Body()dateDay:string){
+    async getReportByDay(@Body()dateDay:dateDayDto){
         return this.reportService.getReportByDay(dateDay);
     }
 

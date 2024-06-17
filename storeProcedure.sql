@@ -69,3 +69,14 @@ END //
 DELIMITER ;
 
 
+DELIMITER //
+
+CREATE PROCEDURE reportGetByDay(IN dateParam VARCHAR(20))
+BEGIN
+    SELECT * FROM Report
+    INNER JOIN Area ON Report.areaIdArea = Area.IdArea
+    INNER JOIN Management ON Management.IdManagement = Area.managementIdManagement
+    WHERE Report.Date = dateParam;
+END //
+
+DELIMITER ;
