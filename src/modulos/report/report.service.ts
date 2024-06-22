@@ -59,7 +59,7 @@ export class ReportService {
 
     async getAllReports() {
         try {
-            const report = await this.reportRepository.find();
+            const report = await this.reportRepository.query("select * from Report inner join Area on Report.areaIdArea = Area.IdArea INNER join Management on Area.managementIdManagement = Management.IdManagement;");
             return { data: report, msg: 'Success', success: true };
         } catch (e) {
             console.error('Failed to get report:', e);
