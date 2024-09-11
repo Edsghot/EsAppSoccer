@@ -18,7 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     port: 3306,
     username: 'dbjhfjuv_edsghot',
     password: 'Repro321.',
-    database: 'nibcqvah_EsAppSoccer',
+    database: 'dbjhfjuv_bambas',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
 }),UserModule, Field1Module, Field2Module, AreaModule, ManagementModule, NotificationModule, ReportModule,AuthValidateModule, NotificationAllModule,ConfigModule.forRoot({
